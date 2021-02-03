@@ -28,10 +28,51 @@ We consider the following methods to compare gene expression levels under each i
 \noindent 5. poisson mash + sample-specific random effects + ruv.
 
 
-## Result summary
+## Look at distributions of Z-scores by comparing to the mean
 ```{r warning=FALSE, message=FALSE}
 library(mashr)
+library(edgeR)
+library(limma)
 
+### load in the design matrix
+design <- readRDS("../simulations/design.Rds")
+trts <- colnames(design)
+R <- length(trts)
+
+### plot the histograms of Z-scores across all genes and conditions
+par(mfrow=c(2,2))
+
+for(idx in 1:10){
+  ### read in data
+  counts <- readRDS(paste0("../simulations/null_data/raw_data", idx, ".Rds"))
+  
+  ### normalize and transform the count data
+  y <- DGEList(counts)
+  y <- calcNormFactors(y)
+  dat_cpm <- cpm(y, log = TRUE)
+  
+  ### extract Bhat and Shat using limma  
+  cov_of_interest = 1:ncol(design)
+  lmout = limma::lmFit(object = dat_cpm, design = design)
+  eout  = limma::eBayes(lmout)
+  bhat = lmout$coefficients[,cov_of_interest,drop=FALSE]
+  shat = lmout$stdev.unscaled[,cov_of_interest,drop=FALSE] * sqrt(eout$s2.post)
+  rownames(shat) = rownames(bhat)
+  
+  ### compute Z-scores by comparing to the overall mean across all conditions
+  mash.data = mash_set_data(bhat, shat, alpha = 1)
+  mash.data.L = mash_update_data(mash.data, ref = "mean")
+  mash.Z = mash.data.L$Bhat/mash.data.L$Shat
+  
+  ### plot the histograms of Z-scores of all genes and conditions
+  hist(mash.Z, xlab="Z-scores", main=paste0("Hist of Z-scores \n by comparing to the mean \n across genes and conditions for rep=", idx))
+}
+
+```
+
+
+## Result summary
+```{r warning=FALSE, message=FALSE}
 ### limma + mash with common baseline
 num_effects_1 <- rep(NA, 10)
 
@@ -105,6 +146,24 @@ round(num_effects_4/nrow(mash.fit$lfsr), 3)
 ```
 
 
+```{r warning=FALSE, message=FALSE}
+### poisson mash + sample-specific random effects + ruv
+num_effects_5 <- rep(NA, 10)
+
+for(i in 1:10){
+  pois.fit <- readRDS(paste0("output/null_output/pois_mash_ruv_posterior_rep_", i, ".Rds"))
+  num_effects_5[i] <- sum(apply(pois.fit$lfsr, 1, min) < 0.05)
+}
+
+### number of false positives
+num_effects_5
+
+### false positive rates
+round(num_effects_5/nrow(pois.fit$lfsr), 3)
+
+```
+
+
 ## Look at estimated weights of prior covariances in the mash ruv fit
 ```{r warning=FALSE, message=FALSE}
 library(pheatmap)
@@ -124,49 +183,6 @@ for(i in 1:5){
            main=paste0("Estimated weights of prior covariances in mash ruv fit \n for null data rep=", i))
   
 }
-
-```
-
-
-## Look at distributions of Z-scores by comparing to the mean
-```{r warning=FALSE, message=FALSE}
-library(edgeR)
-library(limma)
-
-### load in the design matrix
-design <- readRDS("../simulations/design.Rds")
-trts <- colnames(design)
-R <- length(trts)
-
-### plot the histograms of Z-scores across all genes and conditions
-par(mfrow=c(2,2))
-
-for(idx in 1:10){
-  ### read in data
-  counts <- readRDS(paste0("../simulations/null_data/raw_data", idx, ".Rds"))
-  
-  ### normalize and transform the count data
-  y <- DGEList(counts)
-  y <- calcNormFactors(y)
-  dat_cpm <- cpm(y, log = TRUE)
-  
-  ### extract Bhat and Shat using limma  
-  cov_of_interest = 1:ncol(design)
-  lmout = limma::lmFit(object = dat_cpm, design = design)
-  eout  = limma::eBayes(lmout)
-  bhat = lmout$coefficients[,cov_of_interest,drop=FALSE]
-  shat = lmout$stdev.unscaled[,cov_of_interest,drop=FALSE] * sqrt(eout$s2.post)
-  rownames(shat) = rownames(bhat)
-  
-  ### compute Z-scores by comparing to the overall mean across all conditions
-  mash.data = mash_set_data(bhat, shat, alpha = 1)
-  mash.data.L = mash_update_data(mash.data, ref = "mean")
-  mash.Z = mash.data.L$Bhat/mash.data.L$Shat
-  
-  ### plot the histograms of Z-scores of all genes and conditions
-  hist(mash.Z, xlab="Z-scores", main=paste0("Hist of Z-scores \n by comparing to the mean \n across genes and conditions for rep=", idx))
-}
-
 
 ```
 
