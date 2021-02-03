@@ -1,0 +1,188 @@
+---
+title: "Testing differential expression on simulated bulk rna-seq data under the null (same permutation)"
+author: "Yusha Liu"
+header-includes:
+date: "2021-2-2"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Simulation procedure
+We apply various methods to detect differential exression on bulk rna-seq data simulated under the null. More specifically, we start with a subset of the [tbdata](https://pubmed.ncbi.nlm.nih.gov/26586179/) which includes the gene expression data of 12,728 genes from 54 samples infected by 8 different types of bacteria and one non-infected control (6 individuals per condition), measured at 4 hours post-infection. Then we randomly permute the samples with respect to the condition labels so that there no longer exists association between gene expression levels and conditions. 
+
+There are two different ways to randomly permute the data: 1) the same permutation to all the genes, so the correlation among genes is preserved on the permuted dataset; 2) independent and different permutation to each gene. Here we simulate null data by applying the same permutation to all the genes; we simulate 10 replicate datasets in total.
+
+
+## Methods
+We consider the following methods to compare gene expression levels under each infected condition to the control on the simulated null data. For methods related to mash, we always assume $\alpha = 1$, i.e., the EZ model. 
+
+\noindent 1. limma + mash with common baseline.
+
+\noindent 2. sva + limma + mash with common baseline.
+
+\noindent 3. mash + sample-specific random effects.
+
+\noindent 4. mash + sample-specific random effects + ruv, with variance inflation factor constrained to be at least 1. 
+
+\noindent 5. poisson mash + sample-specific random effects + ruv.
+
+
+## Result summary
+```{r warning=FALSE, message=FALSE}
+library(mashr)
+
+### limma + mash with common baseline
+num_effects_1 <- rep(NA, 10)
+
+for(i in 1:10){
+  mash.fit <- readRDS(paste0("output/null_output/mash_fit_rep_", i, ".Rds"))
+  idx.mash <- get_significant_results(mash.fit)
+  num_effects_1[i] <- length(idx.mash)
+}
+
+### number of false positives
+num_effects_1
+
+### false positive rates
+round(num_effects_1/nrow(mash.fit$result$lfsr), 3)
+
+```
+
+
+```{r warning=FALSE, message=FALSE}
+### sva + limma + mash with common baseline 
+num_effects_2 <- rep(NA, 10)
+
+for(i in 1:10){
+  mash.fit <- readRDS(paste0("output/null_output/sva_mash_fit_rep_", i, ".Rds"))
+  idx.mash <- get_significant_results(mash.fit)
+  num_effects_2[i] <- length(idx.mash)
+}
+
+### number of false positives
+num_effects_2
+
+### false positive rates
+round(num_effects_2/nrow(mash.fit$result$lfsr), 3)
+
+```
+
+
+```{r warning=FALSE, message=FALSE}
+### mash + sample-specific random effects
+num_effects_3 <- rep(NA, 10)
+
+for(i in 1:10){
+  mash.fit <- readRDS(paste0("output/null_output/mash_no_ruv_posterior_rep_", i, ".Rds"))
+  num_effects_3[i] <- sum(apply(mash.fit$lfsr, 1, min) < 0.05)
+}
+
+### number of false positives
+num_effects_3
+
+### false positive rates
+round(num_effects_3/nrow(mash.fit$lfsr), 3)
+
+```
+
+
+```{r warning=FALSE, message=FALSE}
+### mash + sample-specific random effects + ruv
+num_effects_4 <- rep(NA, 10)
+
+for(i in 1:10){
+  mash.fit <- readRDS(paste0("output/null_output/mash_ruv_posterior_rep_", i, ".Rds"))
+  num_effects_4[i] <- sum(apply(mash.fit$lfsr, 1, min) < 0.05)
+}
+
+### number of false positives
+num_effects_4
+
+### false positive rates
+round(num_effects_4/nrow(mash.fit$lfsr), 3)
+
+```
+
+
+## Look at estimated weights of prior covariances in the mash ruv fit
+```{r warning=FALSE, message=FALSE}
+library(pheatmap)
+library(gridExtra)
+
+## load in the mash ruv fit 
+for(i in 1:5){
+  res <- readRDS(paste0("../simulations/null_output/mash_ruv_fit_rep_", i, ".Rds"))
+  
+  # calculate estimated weights
+  pi.mat <- matrix(res$pi, ncol=length(res$wlist), byrow=TRUE)
+  rownames(pi.mat) <- c(names(res$Ulist), names(res$ulist))
+  colnames(pi.mat) <- paste0("w=", round(res$wlist, 3))
+
+  # plot estimated weights
+  pheatmap(pi.mat, cluster_rows=FALSE, cluster_cols=FALSE, fontsize_row=10, fontsize_col=10, 
+           main=paste0("Estimated weights of prior covariances in mash ruv fit \n for null data rep=", i))
+  
+}
+
+```
+
+
+## Look at distributions of Z-scores by comparing to the mean
+```{r warning=FALSE, message=FALSE}
+library(edgeR)
+library(limma)
+
+### load in the design matrix
+design <- readRDS("../simulations/design.Rds")
+trts <- colnames(design)
+R <- length(trts)
+
+### plot the histograms of Z-scores across all genes and conditions
+par(mfrow=c(2,2))
+
+for(idx in 1:10){
+  ### read in data
+  counts <- readRDS(paste0("../simulations/null_data/raw_data", idx, ".Rds"))
+  
+  ### normalize and transform the count data
+  y <- DGEList(counts)
+  y <- calcNormFactors(y)
+  dat_cpm <- cpm(y, log = TRUE)
+  
+  ### extract Bhat and Shat using limma  
+  cov_of_interest = 1:ncol(design)
+  lmout = limma::lmFit(object = dat_cpm, design = design)
+  eout  = limma::eBayes(lmout)
+  bhat = lmout$coefficients[,cov_of_interest,drop=FALSE]
+  shat = lmout$stdev.unscaled[,cov_of_interest,drop=FALSE] * sqrt(eout$s2.post)
+  rownames(shat) = rownames(bhat)
+  
+  ### compute Z-scores by comparing to the overall mean across all conditions
+  mash.data = mash_set_data(bhat, shat, alpha = 1)
+  mash.data.L = mash_update_data(mash.data, ref = "mean")
+  mash.Z = mash.data.L$Bhat/mash.data.L$Shat
+  
+  ### plot the histograms of Z-scores of all genes and conditions
+  hist(mash.Z, xlab="Z-scores", main=paste0("Hist of Z-scores \n by comparing to the mean \n across genes and conditions for rep=", idx))
+}
+
+
+```
+
+
+## Look at pairwise comparisons with control using MOUTHWASH (sprop=1)
+```{r warning=FALSE, message=FALSE}
+m.out <- readRDS("output/mouthwash_sim_null_summary.Rds")
+
+## the estimate of the proportion of null genes
+round(m.out$pi0,3)
+
+## the number of DE genes by comparing each infected condition to the control (lfsr < 0.05)
+m.out$num_effects_1
+
+## the number of DE genes by comparing each infected condition to the control (lfsr < 0.05/8)
+m.out$num_effects_2
+
+```
+
