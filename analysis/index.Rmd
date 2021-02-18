@@ -13,4 +13,5 @@ Welcome to my research website.
 
 ## Simulations under the null based on tbdata (bulk rna-seq data)
 Click on this [link](sim_null.html) to see application of various methods to detect DE genes under multiple conditions (same permutation to all genes). <br/>
+Click on this [link](sim_null_ash.html) to see application of various versions of ash to detect DE genes between each infected condition and the control (same permutation to all genes). <br/>
 Click on this [link](sim_null_v2.html) to see application of various methods to detect DE genes under multiple conditions (diff permutation to each gene). <br/>

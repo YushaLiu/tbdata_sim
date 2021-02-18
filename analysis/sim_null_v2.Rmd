@@ -2,7 +2,7 @@
 title: "Testing differential expression on simulated bulk rna-seq data under the null (different permutation)"
 author: "Yusha Liu"
 header-includes:
-date: "2021-2-2"
+date: "2021-2-17"
 output: workflowr::wflow_html
 editor_options:
   chunk_output_type: console
@@ -129,13 +129,22 @@ round(num_effects_5/nrow(pois.fit$lfsr), 3)
 m.out <- readRDS("output/mouthwash_sim_null_v2_summary.Rds")
 
 ## the estimate of the proportion of null genes
-round(m.out$pi0,3)
+round(m.out$pi0, 3)
 
 ## the number of DE genes by comparing each infected condition to the control (lfsr < 0.05)
 m.out$num_effects_1
 
-## the number of DE genes by comparing each infected condition to the control (lfsr < 0.05/8)
-m.out$num_effects_2
-
 ```
 
+
+## Look at pairwise comparisons with control using MOUTHWASH, with calibrated shat (sprop=1)
+```{r warning=FALSE, message=FALSE}
+m.out <- readRDS("output/mouthwash_t_lik_sim_null_v2_summary.Rds")
+
+## the estimate of the proportion of null genes
+round(m.out$pi0, 3)
+
+## the number of DE genes by comparing each infected condition to the control (lfsr < 0.05)
+m.out$num_effects_1
+
+```

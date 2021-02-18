@@ -2,7 +2,7 @@
 title: "Testing differential expression on simulated bulk rna-seq data under the null (same permutation)"
 author: "Yusha Liu"
 header-includes:
-date: "2021-2-2"
+date: "2021-2-17"
 output: workflowr::wflow_html
 editor_options:
   chunk_output_type: console
@@ -39,7 +39,7 @@ design <- readRDS("../simulations/design.Rds")
 trts <- colnames(design)
 R <- length(trts)
 
-### plot the histograms of Z-scores across all genes and conditions
+### plot the histograms and qqplots of Z-scores across all genes and conditions
 par(mfrow=c(2,2))
 
 for(idx in 1:10){
@@ -65,7 +65,11 @@ for(idx in 1:10){
   mash.Z = mash.data.L$Bhat/mash.data.L$Shat
   
   ### plot the histograms of Z-scores of all genes and conditions
-  hist(mash.Z, xlab="Z-scores", main=paste0("Hist of Z-scores \n by comparing to the mean \n across genes and conditions for rep=", idx))
+  hist(mash.Z, xlab="Z-scores", main=paste0("Hist of Z-scores \n by comparing to the mean \n across genes and conds for rep=", idx))
+  
+  ### plot the Q-Q plot of Z-scores of all genes and conditions
+  qqnorm(as.numeric(mash.Z), main=paste0("Normal qqplot of Z-scores\nby comparing to the mean \n across genes and conds for rep=", idx))
+  qqline(as.numeric(mash.Z))
 }
 
 ```
@@ -192,13 +196,22 @@ for(i in 1:5){
 m.out <- readRDS("output/mouthwash_sim_null_summary.Rds")
 
 ## the estimate of the proportion of null genes
-round(m.out$pi0,3)
+round(m.out$pi0, 3)
 
 ## the number of DE genes by comparing each infected condition to the control (lfsr < 0.05)
 m.out$num_effects_1
 
-## the number of DE genes by comparing each infected condition to the control (lfsr < 0.05/8)
-m.out$num_effects_2
-
 ```
 
+
+## Look at pairwise comparisons with control using MOUTHWASH, with calibrated shat (sprop=1)
+```{r warning=FALSE, message=FALSE}
+m.out <- readRDS("output/mouthwash_t_lik_sim_null_summary.Rds")
+
+## the estimate of the proportion of null genes
+round(m.out$pi0, 3)
+
+## the number of DE genes by comparing each infected condition to the control (lfsr < 0.05)
+m.out$num_effects_1
+
+```
