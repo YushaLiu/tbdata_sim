@@ -387,7 +387,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Testing differential expression on simulated bulk rna-seq data under the null (same permutation)</h1>
 <h4 class="author">Yusha Liu</h4>
-<h4 class="date">2021-2-2</h4>
+<h4 class="date">2021-2-17</h4>
 
 </div>
 
@@ -412,7 +412,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-02-03
+<strong>Last updated:</strong> 2021-02-18
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -503,16 +503,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomYushaLiutbdatasimtreedd01471aca6badef511c4b281e9535560cbf424ctargetblankdd01471a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/YushaLiu/tbdata_sim/tree/dd01471aca6badef511c4b281e9535560cbf424c" target="_blank">dd01471</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomYushaLiutbdatasimtreef89afa3be1d196935c7a100e01656714d4805eb9targetblankf89afa3a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/YushaLiu/tbdata_sim/tree/f89afa3be1d196935c7a100e01656714d4805eb9" target="_blank">f89afa3</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomYushaLiutbdatasimtreedd01471aca6badef511c4b281e9535560cbf424ctargetblankdd01471a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomYushaLiutbdatasimtreef89afa3be1d196935c7a100e01656714d4805eb9targetblankf89afa3a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/YushaLiu/tbdata_sim/tree/dd01471aca6badef511c4b281e9535560cbf424c" target="_blank">dd01471</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/YushaLiu/tbdata_sim/tree/f89afa3be1d196935c7a100e01656714d4805eb9" target="_blank">f89afa3</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -526,6 +526,8 @@ Ignored files:
 Untracked files:
     Untracked:  output/mouthwash_sim_null_summary.Rds
     Untracked:  output/mouthwash_sim_null_v2_summary.Rds
+    Untracked:  output/mouthwash_t_lik_sim_null_summary.Rds
+    Untracked:  output/mouthwash_t_lik_sim_null_v2_summary.Rds
     Untracked:  output/null_output/
     Untracked:  output/null_v2_output/
 
@@ -566,6 +568,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/YushaLiu/tbdata_sim/blob/f89afa3be1d196935c7a100e01656714d4805eb9/analysis/sim_null.Rmd" target="_blank">f89afa3</a>
+</td>
+<td>
+yushaliu
+</td>
+<td>
+2021-02-18
+</td>
+<td>
+update the pairwise comparison results with calibrated shat
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/YushaLiu/tbdata_sim/d3f56325797402e77eb33a6a025120cec9b19479/docs/sim_null.html" target="_blank">d3f5632</a>
+</td>
+<td>
+yushaliu
+</td>
+<td>
+2021-02-03
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -649,7 +685,7 @@ design &lt;- readRDS(&quot;../simulations/design.Rds&quot;)
 trts &lt;- colnames(design)
 R &lt;- length(trts)
 
-### plot the histograms of Z-scores across all genes and conditions
+### plot the histograms and qqplots of Z-scores across all genes and conditions
 par(mfrow=c(2,2))
 
 for(idx in 1:10){
@@ -675,9 +711,127 @@ for(idx in 1:10){
   mash.Z = mash.data.L$Bhat/mash.data.L$Shat
   
   ### plot the histograms of Z-scores of all genes and conditions
-  hist(mash.Z, xlab=&quot;Z-scores&quot;, main=paste0(&quot;Hist of Z-scores \n by comparing to the mean \n across genes and conditions for rep=&quot;, idx))
+  hist(mash.Z, xlab=&quot;Z-scores&quot;, main=paste0(&quot;Hist of Z-scores \n by comparing to the mean \n across genes and conds for rep=&quot;, idx))
+  
+  ### plot the Q-Q plot of Z-scores of all genes and conditions
+  qqnorm(as.numeric(mash.Z), main=paste0(&quot;Normal qqplot of Z-scores\nby comparing to the mean \n across genes and conds for rep=&quot;, idx))
+  qqline(as.numeric(mash.Z))
 }</code></pre>
-<p><img src="figure/sim_null.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/sim_null.Rmd/unnamed-chunk-1-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/sim_null.Rmd/unnamed-chunk-1-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/sim_null.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-1">
+Past versions of unnamed-chunk-1-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-1-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/YushaLiu/tbdata_sim/blob/d3f56325797402e77eb33a6a025120cec9b19479/docs/figure/sim_null.Rmd/unnamed-chunk-1-1.png" target="_blank">d3f5632</a>
+</td>
+<td>
+yushaliu
+</td>
+<td>
+2021-02-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/sim_null.Rmd/unnamed-chunk-1-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-2">
+Past versions of unnamed-chunk-1-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-1-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/YushaLiu/tbdata_sim/blob/d3f56325797402e77eb33a6a025120cec9b19479/docs/figure/sim_null.Rmd/unnamed-chunk-1-2.png" target="_blank">d3f5632</a>
+</td>
+<td>
+yushaliu
+</td>
+<td>
+2021-02-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/sim_null.Rmd/unnamed-chunk-1-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-3">
+Past versions of unnamed-chunk-1-3.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-1-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/YushaLiu/tbdata_sim/blob/d3f56325797402e77eb33a6a025120cec9b19479/docs/figure/sim_null.Rmd/unnamed-chunk-1-3.png" target="_blank">d3f5632</a>
+</td>
+<td>
+yushaliu
+</td>
+<td>
+2021-02-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/sim_null.Rmd/unnamed-chunk-1-4.png" width="672" style="display: block; margin: auto;" /><img src="figure/sim_null.Rmd/unnamed-chunk-1-5.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="result-summary" class="section level2">
 <h2>Result summary</h2>
@@ -773,14 +927,203 @@ for(i in 1:5){
            main=paste0(&quot;Estimated weights of prior covariances in mash ruv fit \n for null data rep=&quot;, i))
   
 }</code></pre>
-<p><img src="figure/sim_null.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /><img src="figure/sim_null.Rmd/unnamed-chunk-7-2.png" width="672" style="display: block; margin: auto;" /><img src="figure/sim_null.Rmd/unnamed-chunk-7-3.png" width="672" style="display: block; margin: auto;" /><img src="figure/sim_null.Rmd/unnamed-chunk-7-4.png" width="672" style="display: block; margin: auto;" /><img src="figure/sim_null.Rmd/unnamed-chunk-7-5.png" width="672" style="display: block; margin: auto;" /></p>
+<p><img src="figure/sim_null.Rmd/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-1">
+Past versions of unnamed-chunk-7-1.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/YushaLiu/tbdata_sim/blob/d3f56325797402e77eb33a6a025120cec9b19479/docs/figure/sim_null.Rmd/unnamed-chunk-7-1.png" target="_blank">d3f5632</a>
+</td>
+<td>
+yushaliu
+</td>
+<td>
+2021-02-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/sim_null.Rmd/unnamed-chunk-7-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-2">
+Past versions of unnamed-chunk-7-2.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/YushaLiu/tbdata_sim/blob/d3f56325797402e77eb33a6a025120cec9b19479/docs/figure/sim_null.Rmd/unnamed-chunk-7-2.png" target="_blank">d3f5632</a>
+</td>
+<td>
+yushaliu
+</td>
+<td>
+2021-02-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/sim_null.Rmd/unnamed-chunk-7-3.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-3">
+Past versions of unnamed-chunk-7-3.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-3" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/YushaLiu/tbdata_sim/blob/d3f56325797402e77eb33a6a025120cec9b19479/docs/figure/sim_null.Rmd/unnamed-chunk-7-3.png" target="_blank">d3f5632</a>
+</td>
+<td>
+yushaliu
+</td>
+<td>
+2021-02-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/sim_null.Rmd/unnamed-chunk-7-4.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-4">
+Past versions of unnamed-chunk-7-4.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-4" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/YushaLiu/tbdata_sim/blob/d3f56325797402e77eb33a6a025120cec9b19479/docs/figure/sim_null.Rmd/unnamed-chunk-7-4.png" target="_blank">d3f5632</a>
+</td>
+<td>
+yushaliu
+</td>
+<td>
+2021-02-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/sim_null.Rmd/unnamed-chunk-7-5.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-7-5">
+Past versions of unnamed-chunk-7-5.png
+</button>
+</p>
+<div id="fig-unnamed-chunk-7-5" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/YushaLiu/tbdata_sim/blob/d3f56325797402e77eb33a6a025120cec9b19479/docs/figure/sim_null.Rmd/unnamed-chunk-7-5.png" target="_blank">d3f5632</a>
+</td>
+<td>
+yushaliu
+</td>
+<td>
+2021-02-03
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="look-at-pairwise-comparisons-with-control-using-mouthwash-sprop1" class="section level2">
 <h2>Look at pairwise comparisons with control using MOUTHWASH (sprop=1)</h2>
 <pre class="r"><code>m.out &lt;- readRDS(&quot;output/mouthwash_sim_null_summary.Rds&quot;)
 
 ## the estimate of the proportion of null genes
-round(m.out$pi0,3)</code></pre>
+round(m.out$pi0, 3)</code></pre>
 <pre><code>       [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]
  [1,] 0.522 0.995 0.060 0.732 0.121 0.901 0.763 0.411
  [2,] 0.285 0.095 0.847 0.157 0.364 0.034 0.360 0.067
@@ -805,19 +1148,37 @@ m.out$num_effects_1</code></pre>
  [8,]    4  599    2   67 2981  437  346  183
  [9,]   16  588   71   84   46  462  905  173
 [10,]   16   52    4  457  170    3    6   68</code></pre>
-<pre class="r"><code>## the number of DE genes by comparing each infected condition to the control (lfsr &lt; 0.05/8)
-m.out$num_effects_2</code></pre>
+</div>
+<div id="look-at-pairwise-comparisons-with-control-using-mouthwash-with-calibrated-shat-sprop1" class="section level2">
+<h2>Look at pairwise comparisons with control using MOUTHWASH, with calibrated shat (sprop=1)</h2>
+<pre class="r"><code>m.out &lt;- readRDS(&quot;output/mouthwash_t_lik_sim_null_summary.Rds&quot;)
+
+## the estimate of the proportion of null genes
+round(m.out$pi0, 3)</code></pre>
+<pre><code>       [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]
+ [1,] 0.984 0.997 0.075 0.978 0.208 0.992 0.952 0.654
+ [2,] 0.365 0.075 0.962 0.236 0.508 0.011 0.443 0.027
+ [3,] 0.075 0.436 0.989 0.246 0.918 0.996 0.985 0.716
+ [4,] 0.842 0.039 0.095 0.021 0.184 0.089 0.078 0.031
+ [5,] 0.998 0.515 0.995 0.995 0.995 0.994 0.988 0.995
+ [6,] 0.074 0.940 0.023 0.947 0.040 0.073 0.114 0.022
+ [7,] 0.007 0.108 0.012 0.924 0.052 0.070 0.042 0.010
+ [8,] 0.998 0.114 0.997 0.420 0.017 0.834 0.164 0.238
+ [9,] 0.995 0.102 0.959 0.320 0.522 0.226 0.074 0.895
+[10,] 0.988 0.834 0.991 0.099 0.711 0.995 0.989 0.372</code></pre>
+<pre class="r"><code>## the number of DE genes by comparing each infected condition to the control (lfsr &lt; 0.05)
+m.out$num_effects_1</code></pre>
 <pre><code>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8]
- [1,]    3    0   48   20   25    1   13    6
- [2,]   95  105   29   12    3 1929   54  541
- [3,]  414  100   10   33   20    1    4   12
- [4,]   10  167  109 1100   29   16   89  660
- [5,]    0   66    6    0    6    1    2    5
- [6,]  149    1  629    7  254  492   63  438
- [7,] 2048  175 2364    9  463  654  373 2499
- [8,]    2  236    1   10  980  246   50   31
- [9,]    5  150   24    8    2  170  317   41
-[10,]    7   13    2   81   20    0    1    6</code></pre>
+ [1,]    1    0    6    0    5    0    0    0
+ [2,]   29   37    2    0    0 2863    8  812
+ [3,]  546    8    0    2    1    0    0    0
+ [4,]    2  162   55 1880    1    2   59 1098
+ [5,]    0    7    0    0    0    0    0    0
+ [6,]  106    0  836    0  344  665   14  596
+ [7,] 2857   87 3470    2  432  939  400 3642
+ [8,]    0  130    0    0 1449  158   10    2
+ [9,]    1   87    0    0    0   68  490    3
+[10,]    0    0    0   43    0    0    0    0</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
