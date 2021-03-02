@@ -503,16 +503,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomYushaLiutbdatasimtree49f553ce61548f8f6f6c6ff4a78057a4ca03850dtargetblank49f553ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/YushaLiu/tbdata_sim/tree/49f553ce61548f8f6f6c6ff4a78057a4ca03850d" target="_blank">49f553c</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomYushaLiutbdatasimtree6768f00ad3367d30cb785a3311938d729dbdc524targetblank6768f00a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/YushaLiu/tbdata_sim/tree/6768f00ad3367d30cb785a3311938d729dbdc524" target="_blank">6768f00</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomYushaLiutbdatasimtree49f553ce61548f8f6f6c6ff4a78057a4ca03850dtargetblank49f553ca" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomYushaLiutbdatasimtree6768f00ad3367d30cb785a3311938d729dbdc524targetblank6768f00a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/YushaLiu/tbdata_sim/tree/49f553ce61548f8f6f6c6ff4a78057a4ca03850d" target="_blank">49f553c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/YushaLiu/tbdata_sim/tree/6768f00ad3367d30cb785a3311938d729dbdc524" target="_blank">6768f00</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -587,6 +587,40 @@ Message
 Rmd
 </td>
 <td>
+<a href="https://github.com/YushaLiu/tbdata_sim/blob/6768f00ad3367d30cb785a3311938d729dbdc524/analysis/sim_null_pairwise.Rmd" target="_blank">6768f00</a>
+</td>
+<td>
+yushaliu
+</td>
+<td>
+2021-03-02
+</td>
+<td>
+update sim results
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/YushaLiu/tbdata_sim/09956f360f082380160c3957c929bb1c590dba82/docs/sim_null_pairwise.html" target="_blank">09956f3</a>
+</td>
+<td>
+yushaliu
+</td>
+<td>
+2021-03-02
+</td>
+<td>
+Build site.
+</td>
+</tr>
+<tr>
+<td>
+Rmd
+</td>
+<td>
 <a href="https://github.com/YushaLiu/tbdata_sim/blob/49f553ce61548f8f6f6c6ff4a78057a4ca03850d/analysis/sim_null_pairwise.Rmd" target="_blank">49f553c</a>
 </td>
 <td>
@@ -654,6 +688,8 @@ R &lt;- length(trts)</code></pre>
 <div id="ash-alpha1-ez-model-original-shat." class="section level2">
 <h2>Ash: <span class="math inline">\(\alpha=1\)</span> (EZ model), original shat.</h2>
 <pre class="r"><code>num_effects1 &lt;- matrix(NA, nrow=10, ncol=R-1)
+rownames(num_effects1) &lt;- paste0(&quot;rep&quot;, 1:10)
+colnames(num_effects1) &lt;- paste0(&quot;cond&quot;, 1:(R-1))
 
 for(idx in 1:10){
   scdata &lt;- readRDS(paste0(&quot;../simulations/null_data/raw_data&quot;, idx, &quot;.Rds&quot;))
@@ -688,21 +724,23 @@ for(idx in 1:10){
 
 ### the number of significant genes by comparing each infected condition to the control (lfsr &lt; 0.05)
 num_effects1</code></pre>
-<pre><code>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8]
- [1,]    0    0    0    0    0    0    0    0
- [2,] 1524    6    2    0    0 1110    6   17
- [3,]  266   13    0    0    0    0    0    0
- [4,]    3    1    1  365    0    0    0  158
- [5,]    0    4    0    0    0    0    0    0
- [6,]    3    0  105    0    0   60    0    1
- [7,] 3434  798 2815    3 3149  488   33 3357
- [8,]    0   49    0    0   30  121    4    0
- [9,]    0   36    0    1    0    5   11  267
-[10,]    0    0    0    0  489    0    0    0</code></pre>
+<pre><code>      cond1 cond2 cond3 cond4 cond5 cond6 cond7 cond8
+rep1      0     0     0     0     0     0     0     0
+rep2   1524     6     2     0     0  1110     6    17
+rep3    266    13     0     0     0     0     0     0
+rep4      3     1     1   365     0     0     0   158
+rep5      0     4     0     0     0     0     0     0
+rep6      3     0   105     0     0    60     0     1
+rep7   3434   798  2815     3  3149   488    33  3357
+rep8      0    49     0     0    30   121     4     0
+rep9      0    36     0     1     0     5    11   267
+rep10     0     0     0     0   489     0     0     0</code></pre>
 </div>
 <div id="ash-alpha1-ez-model-shat-calibrated-based-on-z-score." class="section level2">
 <h2>Ash: <span class="math inline">\(\alpha=1\)</span> (EZ model), shat calibrated based on Z-score.</h2>
 <pre class="r"><code>num_effects2 &lt;- matrix(NA, nrow=10, ncol=R-1)
+rownames(num_effects2) &lt;- paste0(&quot;rep&quot;, 1:10)
+colnames(num_effects2) &lt;- paste0(&quot;cond&quot;, 1:(R-1))
 
 for(idx in 1:10){
   scdata &lt;- readRDS(paste0(&quot;../simulations/null_data/raw_data&quot;, idx, &quot;.Rds&quot;))
@@ -737,21 +775,23 @@ for(idx in 1:10){
 
 ### the number of significant genes by comparing each infected condition to the control (lfsr &lt; 0.05)
 num_effects2</code></pre>
-<pre><code>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8]
- [1,]    0    0    0    0    0    0    0    0
- [2,]  214    0    0    0    0  261    0    0
- [3,]    2    0    0    0    0    0    0    0
- [4,]    0    0    0   35    0    0    0    1
- [5,]    0    0    0    0    0    0    0    0
- [6,]    0    0    0    0    0    0    0    0
- [7,] 1904   36 1092    0 1303    9    0 1605
- [8,]    0    0    0    0    0    1    0    0
- [9,]    0    0    0    0    0    0    0    0
-[10,]    0    0    0    0   10    0    0    0</code></pre>
+<pre><code>      cond1 cond2 cond3 cond4 cond5 cond6 cond7 cond8
+rep1      0     0     0     0     0     0     0     0
+rep2    214     0     0     0     0   261     0     0
+rep3      2     0     0     0     0     0     0     0
+rep4      0     0     0    35     0     0     0     1
+rep5      0     0     0     0     0     0     0     0
+rep6      0     0     0     0     0     0     0     0
+rep7   1904    36  1092     0  1303     9     0  1605
+rep8      0     0     0     0     0     1     0     0
+rep9      0     0     0     0     0     0     0     0
+rep10     0     0     0     0    10     0     0     0</code></pre>
 </div>
 <div id="ash-alpha0-ee-model-original-shat." class="section level2">
 <h2>Ash: <span class="math inline">\(\alpha=0\)</span> (EE model), original shat.</h2>
 <pre class="r"><code>num_effects3 &lt;- matrix(NA, nrow=10, ncol=R-1)
+rownames(num_effects3) &lt;- paste0(&quot;rep&quot;, 1:10)
+colnames(num_effects3) &lt;- paste0(&quot;cond&quot;, 1:(R-1))
 
 for(idx in 1:10){
   scdata &lt;- readRDS(paste0(&quot;../simulations/null_data/raw_data&quot;, idx, &quot;.Rds&quot;))
@@ -785,21 +825,23 @@ for(idx in 1:10){
 
 ### the number of significant genes by comparing each infected condition to the control (lfsr &lt; 0.05)
 num_effects3</code></pre>
-<pre><code>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8]
- [1,]    0    0    0    0    0    0    0    0
- [2,]  902    4    2    0    0  530    4   13
- [3,]  144   10    0    0    0    0    0    0
- [4,]    1    1    0  249    0    0    0   98
- [5,]    0    1    0    0    0    0    0    0
- [6,]    3    0   60    0    0   54    0    2
- [7,] 3280  170 2303    0 2735  237    3 2616
- [8,]    0   25    0    0   26   62    1    0
- [9,]    0   12    0    1    0    5    9   94
-[10,]    0    0    0    0  113    0    0    0</code></pre>
+<pre><code>      cond1 cond2 cond3 cond4 cond5 cond6 cond7 cond8
+rep1      0     0     0     0     0     0     0     0
+rep2    902     4     2     0     0   530     4    13
+rep3    144    10     0     0     0     0     0     0
+rep4      1     1     0   249     0     0     0    98
+rep5      0     1     0     0     0     0     0     0
+rep6      3     0    60     0     0    54     0     2
+rep7   3280   170  2303     0  2735   237     3  2616
+rep8      0    25     0     0    26    62     1     0
+rep9      0    12     0     1     0     5     9    94
+rep10     0     0     0     0   113     0     0     0</code></pre>
 </div>
 <div id="ash-alpha0-ee-model-shat-calibrated-based-on-z-score." class="section level2">
 <h2>Ash: <span class="math inline">\(\alpha=0\)</span> (EE model), shat calibrated based on Z-score.</h2>
 <pre class="r"><code>num_effects4 &lt;- matrix(NA, nrow=10, ncol=R-1)
+rownames(num_effects4) &lt;- paste0(&quot;rep&quot;, 1:10)
+colnames(num_effects4) &lt;- paste0(&quot;cond&quot;, 1:(R-1))
 
 for(idx in 1:10){
   scdata &lt;- readRDS(paste0(&quot;../simulations/null_data/raw_data&quot;, idx, &quot;.Rds&quot;))
@@ -834,17 +876,17 @@ for(idx in 1:10){
 
 ### the number of significant genes by comparing each infected condition to the control (lfsr &lt; 0.05)
 num_effects4</code></pre>
-<pre><code>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8]
- [1,]    0    0    0    0    0    0    0    0
- [2,]   41    0    0    0    0    9    0    0
- [3,]    0    0    0    0    0    0    0    0
- [4,]    0    0    0    0    0    0    0    0
- [5,]    0    0    0    0    0    0    0    0
- [6,]    0    0    0    0    0    0    0    0
- [7,] 1657    0  667    0  913    0    0 1072
- [8,]    0    0    0    0    0    0    0    0
- [9,]    0    0    0    0    0    0    0    0
-[10,]    0    0    0    0    0    0    0    0</code></pre>
+<pre><code>      cond1 cond2 cond3 cond4 cond5 cond6 cond7 cond8
+rep1      0     0     0     0     0     0     0     0
+rep2     41     0     0     0     0     9     0     0
+rep3      0     0     0     0     0     0     0     0
+rep4      0     0     0     0     0     0     0     0
+rep5      0     0     0     0     0     0     0     0
+rep6      0     0     0     0     0     0     0     0
+rep7   1657     0   667     0   913     0     0  1072
+rep8      0     0     0     0     0     0     0     0
+rep9      0     0     0     0     0     0     0     0
+rep10     0     0     0     0     0     0     0     0</code></pre>
 </div>
 <div id="mouthwash-number-of-hidden-confounders-k3-original-shat." class="section level2">
 <h2>Mouthwash: number of hidden confounders <span class="math inline">\(K=3\)</span>, original shat.</h2>
