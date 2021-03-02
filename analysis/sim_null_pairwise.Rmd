@@ -71,6 +71,8 @@ R <- length(trts)
 ## Ash:  $\alpha=1$ (EZ model), original shat.
 ```{r warning=FALSE, message=FALSE}
 num_effects1 <- matrix(NA, nrow=10, ncol=R-1)
+rownames(num_effects1) <- paste0("rep", 1:10)
+colnames(num_effects1) <- paste0("cond", 1:(R-1))
 
 for(idx in 1:10){
   scdata <- readRDS(paste0("../simulations/null_data/raw_data", idx, ".Rds"))
@@ -112,6 +114,8 @@ num_effects1
 ## Ash: $\alpha=1$ (EZ model), shat calibrated based on Z-score.
 ```{r warning=FALSE, message=FALSE}
 num_effects2 <- matrix(NA, nrow=10, ncol=R-1)
+rownames(num_effects2) <- paste0("rep", 1:10)
+colnames(num_effects2) <- paste0("cond", 1:(R-1))
 
 for(idx in 1:10){
   scdata <- readRDS(paste0("../simulations/null_data/raw_data", idx, ".Rds"))
@@ -153,6 +157,8 @@ num_effects2
 ## Ash: $\alpha=0$ (EE model), original shat.
 ```{r warning=FALSE, message=FALSE}
 num_effects3 <- matrix(NA, nrow=10, ncol=R-1)
+rownames(num_effects3) <- paste0("rep", 1:10)
+colnames(num_effects3) <- paste0("cond", 1:(R-1))
 
 for(idx in 1:10){
   scdata <- readRDS(paste0("../simulations/null_data/raw_data", idx, ".Rds"))
@@ -193,6 +199,8 @@ num_effects3
 ## Ash: $\alpha=0$ (EE model), shat calibrated based on Z-score.
 ```{r warning=FALSE, message=FALSE}
 num_effects4 <- matrix(NA, nrow=10, ncol=R-1)
+rownames(num_effects4) <- paste0("rep", 1:10)
+colnames(num_effects4) <- paste0("cond", 1:(R-1))
 
 for(idx in 1:10){
   scdata <- readRDS(paste0("../simulations/null_data/raw_data", idx, ".Rds"))
