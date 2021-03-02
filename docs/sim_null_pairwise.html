@@ -558,7 +558,7 @@ Note that any generated files, e.g. HTML, png, CSS, etc., are not included in t
 <div id="versions" class="tab-pane fade">
 
 <p>
-These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/sim_null.Rmd</code>) and HTML (<code>docs/sim_null.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
+These are the previous versions of the repository in which changes were made to the R Markdown (<code>analysis/sim_null_pairwise.Rmd</code>) and HTML (<code>docs/sim_null_pairwise.html</code>) files. If you’ve configured a remote Git repository (see <code>?wflow_git_remote</code>), click on the hyperlinks in the table below to view the files as they were in that past version.
 </p>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
@@ -587,7 +587,7 @@ Message
 Rmd
 </td>
 <td>
-<a href="https://github.com/YushaLiu/tbdata_sim/blob/49f553ce61548f8f6f6c6ff4a78057a4ca03850d/analysis/sim_null.Rmd" target="_blank">49f553c</a>
+<a href="https://github.com/YushaLiu/tbdata_sim/blob/49f553ce61548f8f6f6c6ff4a78057a4ca03850d/analysis/sim_null_pairwise.Rmd" target="_blank">49f553c</a>
 </td>
 <td>
 yushaliu
@@ -597,108 +597,6 @@ yushaliu
 </td>
 <td>
 update sim results
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/YushaLiu/tbdata_sim/65693142139dc76ef544a147e3b2ee53f297b068/docs/sim_null.html" target="_blank">6569314</a>
-</td>
-<td>
-yushaliu
-</td>
-<td>
-2021-02-18
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/YushaLiu/tbdata_sim/blob/f89afa3be1d196935c7a100e01656714d4805eb9/analysis/sim_null.Rmd" target="_blank">f89afa3</a>
-</td>
-<td>
-yushaliu
-</td>
-<td>
-2021-02-18
-</td>
-<td>
-update the pairwise comparison results with calibrated shat
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/YushaLiu/tbdata_sim/d3f56325797402e77eb33a6a025120cec9b19479/docs/sim_null.html" target="_blank">d3f5632</a>
-</td>
-<td>
-yushaliu
-</td>
-<td>
-2021-02-03
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/YushaLiu/tbdata_sim/blob/dd01471aca6badef511c4b281e9535560cbf424c/analysis/sim_null.Rmd" target="_blank">dd01471</a>
-</td>
-<td>
-yushaliu
-</td>
-<td>
-2021-02-03
-</td>
-<td>
-Update some analyses
-</td>
-</tr>
-<tr>
-<td>
-html
-</td>
-<td>
-<a href="https://rawcdn.githack.com/YushaLiu/tbdata_sim/3066607a7b57887209431dfad1dcabf3bd4b226a/docs/sim_null.html" target="_blank">3066607</a>
-</td>
-<td>
-yushaliu
-</td>
-<td>
-2021-02-03
-</td>
-<td>
-Build site.
-</td>
-</tr>
-<tr>
-<td>
-Rmd
-</td>
-<td>
-<a href="https://github.com/YushaLiu/tbdata_sim/blob/f4cf8b833534f829734c9cffe37c68995c112de8/analysis/sim_null.Rmd" target="_blank">f4cf8b8</a>
-</td>
-<td>
-yushaliu
-</td>
-<td>
-2021-02-03
-</td>
-<td>
-Add the simulation results
 </td>
 </tr>
 </tbody>
@@ -715,355 +613,362 @@ Add the simulation results
 </div>
 <div id="methods" class="section level2">
 <h2>Methods</h2>
-<p>We consider the following methods to compare gene expression levels under each infected condition to the control on the simulated null data. For methods related to mash, we always assume <span class="math inline">\(\alpha = 1\)</span>, i.e., the EZ model.</p>
-<p>1. limma + mash with common baseline, with or without voom procedure.</p>
-<p>2. sva + limma + mash with common baseline.</p>
-<p>3. mash + sample-specific random effects without accounting for unwanted variation.</p>
-<p>4. mash + sample-specific random effects + ruv, with variance inflation factor constrained to be at least 1. Here we try different number of hidden confounders in the ruv step, and also consider including (i) canonical prior covariances only, (ii) both data-driven and canonical prior covariances. For (ii), to identify the subset of “strong” genes that are used to estimate data-driven covariances, we either (a) directly use <span class="math inline">\(\hat{b}\)</span> and <span class="math inline">\(\hat{s}\)</span> to calculate Z-scores, or (b) first subtract the estimated bias caused by unwanted variation from <span class="math inline">\(\hat{b}\)</span> to get <span class="math inline">\(\hat{\tilde{b}}\)</span>, and then calculate Z-scores using <span class="math inline">\(\hat{\tilde{b}}\)</span> and <span class="math inline">\(\hat{s}\)</span>. The genes with <span class="math inline">\(\max_{r} |Z_{jr}| &gt; 3.5\)</span> are identified as “strong” genes.</p>
-<p>5. poisson mash + sample-specific random effects + ruv. We also consider including (i) canonical prior covariances only, (ii) both data-driven and canonical prior covariances.</p>
+<p>We apply ash and mouthwash to do pairwise comparisons of gene expressions between each infected condition and the control on the simulated null data.</p>
+<p>We implement the following 4 versions of ash:</p>
+<p>1. <span class="math inline">\(\alpha=1\)</span> (EZ model), original shat.</p>
+<p>2. <span class="math inline">\(\alpha=1\)</span> (EZ model), shat calibrated based on Z-score.</p>
+<p>3. <span class="math inline">\(\alpha=0\)</span> (EE model), original shat.</p>
+<p>4. <span class="math inline">\(\alpha=0\)</span> (EE model), shat calibrated based on Z-score.</p>
+<p>We implement the following 4 versions of mouthwash, while setting <span class="math inline">\(\alpha=1\)</span> (EZ model) in all cases:</p>
+<p>1. Number of hidden confounders <span class="math inline">\(K=3\)</span>, original shat.</p>
+<p>2. Number of hidden confounders <span class="math inline">\(K=3\)</span>, shat calibrated based on Z-score.</p>
+<p>3. Number of hidden confounders <span class="math inline">\(K=6\)</span>, original shat.</p>
+<p>4. Number of hidden confounders <span class="math inline">\(K=6\)</span>, shat calibrated based on Z-score.</p>
 </div>
-<div id="look-at-distributions-of-z-scores-by-comparing-to-the-mean" class="section level2">
-<h2>Look at distributions of Z-scores by comparing to the mean</h2>
-<pre class="r"><code>library(mashr)
+<div id="load-in-the-packages-and-the-shat-calibration-function" class="section level2">
+<h2>Load in the packages and the shat calibration function</h2>
+<pre class="r"><code>library(ashr)
 library(edgeR)
 library(limma)
+
+### the function to calibrate shat under t likelihood based on Z score
+adjust_by_t &lt;- function(betahat, sebetahat, df) {
+  ## Check input -----------------------------------------
+  assertthat::are_equal(length(betahat), length(sebetahat))
+  assertthat::assert_that(length(betahat) == length(df) | length(df) == 1)
+  assertthat::assert_that(df &gt; 0)
+  
+  ## Convert t to z --------------------------------------
+  zstats &lt;- stats::qnorm(stats::pt(q = betahat / sebetahat, df = df))
+  snew &lt;- c(betahat / zstats)
+  
+  return(snew)
+}
+
 
 ### load in the design matrix
 design &lt;- readRDS(&quot;../simulations/design.Rds&quot;)
 trts &lt;- colnames(design)
-R &lt;- length(trts)
-
-### plot the histograms and qqplots of Z-scores across all genes and conditions
-par(mfrow=c(2,2))
+R &lt;- length(trts)</code></pre>
+</div>
+<div id="ash-alpha1-ez-model-original-shat." class="section level2">
+<h2>Ash: <span class="math inline">\(\alpha=1\)</span> (EZ model), original shat.</h2>
+<pre class="r"><code>num_effects1 &lt;- matrix(NA, nrow=10, ncol=R-1)
 
 for(idx in 1:10){
-  ### read in data
-  counts &lt;- readRDS(paste0(&quot;../simulations/null_data/raw_data&quot;, idx, &quot;.Rds&quot;))
+  scdata &lt;- readRDS(paste0(&quot;../simulations/null_data/raw_data&quot;, idx, &quot;.Rds&quot;))
   
-  ### normalize and transform the count data
-  y &lt;- DGEList(counts)
-  y &lt;- calcNormFactors(y)
-  dat_cpm &lt;- cpm(y, log = TRUE)
-  
-  ### extract Bhat and Shat using limma  
-  cov_of_interest = 1:ncol(design)
-  lmout = limma::lmFit(object = dat_cpm, design = design)
-  eout  = limma::eBayes(lmout)
-  bhat = lmout$coefficients[,cov_of_interest,drop=FALSE]
-  shat = lmout$stdev.unscaled[,cov_of_interest,drop=FALSE] * sqrt(eout$s2.post)
-  rownames(shat) = rownames(bhat)
-  
-  ### compute Z-scores by comparing to the overall mean across all conditions
-  mash.data = mash_set_data(bhat, shat, alpha = 1)
-  mash.data.L = mash_update_data(mash.data, ref = &quot;mean&quot;)
-  mash.Z = mash.data.L$Bhat/mash.data.L$Shat
-  
-  ### plot the histograms of Z-scores of all genes and conditions
-  hist(mash.Z, xlab=&quot;Z-scores&quot;, main=paste0(&quot;Hist of Z-scores \n by comparing to the mean \n across genes and conds for rep=&quot;, idx))
-  
-  ### plot the Q-Q plot of Z-scores of all genes and conditions
-  qqnorm(as.numeric(mash.Z), main=paste0(&quot;Normal qqplot of Z-scores\nby comparing to the mean \n across genes and conds for rep=&quot;, idx))
-  qqline(as.numeric(mash.Z))
-}</code></pre>
-<p><img src="figure/sim_null.Rmd/unnamed-chunk-1-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-1">
-Past versions of unnamed-chunk-1-1.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-1-1" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/YushaLiu/tbdata_sim/blob/65693142139dc76ef544a147e3b2ee53f297b068/docs/figure/sim_null.Rmd/unnamed-chunk-1-1.png" target="_blank">6569314</a>
-</td>
-<td>
-yushaliu
-</td>
-<td>
-2021-02-18
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/YushaLiu/tbdata_sim/blob/d3f56325797402e77eb33a6a025120cec9b19479/docs/figure/sim_null.Rmd/unnamed-chunk-1-1.png" target="_blank">d3f5632</a>
-</td>
-<td>
-yushaliu
-</td>
-<td>
-2021-02-03
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><img src="figure/sim_null.Rmd/unnamed-chunk-1-2.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-2">
-Past versions of unnamed-chunk-1-2.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-1-2" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/YushaLiu/tbdata_sim/blob/65693142139dc76ef544a147e3b2ee53f297b068/docs/figure/sim_null.Rmd/unnamed-chunk-1-2.png" target="_blank">6569314</a>
-</td>
-<td>
-yushaliu
-</td>
-<td>
-2021-02-18
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/YushaLiu/tbdata_sim/blob/d3f56325797402e77eb33a6a025120cec9b19479/docs/figure/sim_null.Rmd/unnamed-chunk-1-2.png" target="_blank">d3f5632</a>
-</td>
-<td>
-yushaliu
-</td>
-<td>
-2021-02-03
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><img src="figure/sim_null.Rmd/unnamed-chunk-1-3.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-3">
-Past versions of unnamed-chunk-1-3.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-1-3" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/YushaLiu/tbdata_sim/blob/65693142139dc76ef544a147e3b2ee53f297b068/docs/figure/sim_null.Rmd/unnamed-chunk-1-3.png" target="_blank">6569314</a>
-</td>
-<td>
-yushaliu
-</td>
-<td>
-2021-02-18
-</td>
-</tr>
-<tr>
-<td>
-<a href="https://github.com/YushaLiu/tbdata_sim/blob/d3f56325797402e77eb33a6a025120cec9b19479/docs/figure/sim_null.Rmd/unnamed-chunk-1-3.png" target="_blank">d3f5632</a>
-</td>
-<td>
-yushaliu
-</td>
-<td>
-2021-02-03
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><img src="figure/sim_null.Rmd/unnamed-chunk-1-4.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-4">
-Past versions of unnamed-chunk-1-4.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-1-4" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/YushaLiu/tbdata_sim/blob/65693142139dc76ef544a147e3b2ee53f297b068/docs/figure/sim_null.Rmd/unnamed-chunk-1-4.png" target="_blank">6569314</a>
-</td>
-<td>
-yushaliu
-</td>
-<td>
-2021-02-18
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<p><img src="figure/sim_null.Rmd/unnamed-chunk-1-5.png" width="672" style="display: block; margin: auto;" /></p>
-<p>
-<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-1-5">
-Past versions of unnamed-chunk-1-5.png
-</button>
-</p>
-<div id="fig-unnamed-chunk-1-5" class="collapse">
-<div class="table-responsive">
-<table class="table table-condensed table-hover">
-<thead>
-<tr>
-<th>
-Version
-</th>
-<th>
-Author
-</th>
-<th>
-Date
-</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>
-<a href="https://github.com/YushaLiu/tbdata_sim/blob/65693142139dc76ef544a147e3b2ee53f297b068/docs/figure/sim_null.Rmd/unnamed-chunk-1-5.png" target="_blank">6569314</a>
-</td>
-<td>
-yushaliu
-</td>
-<td>
-2021-02-18
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<div id="result-summary" class="section level2">
-<h2>Result summary</h2>
-<pre class="r"><code>### limma + mash with common baseline
-limma_mash_num_effects &lt;- readRDS(&quot;output/sim_null_limma_mash_results.Rds&quot;)
+  ### iterate over conditions 
+  for(r in 1:8){
+    ### take data from one infected condition and the control
+    counts &lt;- scdata[, (design[,1]==1 | design[,r+1]==1)]
+    
+    ### normalize and transform the count data
+    y &lt;- DGEList(counts)
+    y &lt;- calcNormFactors(y)
+    dat_cpm &lt;- cpm(y, log = TRUE)
+    
+    ### construct the covariate matrix
+    data.X &lt;- model.matrix(~design[(design[,1]==1 | design[,r+1]==1), r+1])
+    colnames(data.X) &lt;- c(&quot;Intercept&quot;, &quot;Trt&quot;)
+    
+    ### compute bhat and shat (of the difference between the given condition and the negative control)
+    cov_of_interest = 2
+    lmout = limma::lmFit(object = dat_cpm, design = data.X)
+    eout = limma::eBayes(lmout)
+    bhat = lmout$coefficients[,cov_of_interest]
+    shat = lmout$stdev.unscaled[,cov_of_interest] * sqrt(eout$s2.post)
+    
+    ### apply ash
+    ash.out = ash(betahat=bhat, sebetahat=shat, mixcompdist=&quot;normal&quot;, alpha=1, lik=lik_normal())
+    num_effects1[idx,r] = sum(ash.out$result$lfsr &lt; 0.05)
+  }
+}
 
-### number of false positives
-limma_mash_num_effects</code></pre>
-<pre><code>                rep1 rep2 rep3 rep4 rep5 rep6 rep7 rep8 rep9 rep10
-limma_mash         6 3958    5 1856 3073  952 6158 1285 2937  4744
-voom_limma_mash 3293 6917 4419 4598 6310 4025 9663 5124 6422  6365</code></pre>
-<pre class="r"><code>### false positive rates
-round(limma_mash_num_effects/12728, 3)</code></pre>
-<pre><code>                 rep1  rep2  rep3  rep4  rep5  rep6  rep7  rep8  rep9 rep10
-limma_mash      0.000 0.311 0.000 0.146 0.241 0.075 0.484 0.101 0.231 0.373
-voom_limma_mash 0.259 0.543 0.347 0.361 0.496 0.316 0.759 0.403 0.505 0.500</code></pre>
-<pre class="r"><code>### sva + limma + mash with common baseline, with different numbers of hidden confounders in sva
-sva_limma_mash_num_effects &lt;- readRDS(&quot;output/sim_null_sva_limma_mash_results.Rds&quot;)
 
-### number of false positives
-sva_limma_mash_num_effects</code></pre>
-<pre><code>      rep1  rep2  rep3  rep4  rep5  rep6  rep7  rep8  rep9 rep10
-K=5   7138  8457  7535  7959  6685  6908  9158  8062  7452  8539
-K=15  9647 10295  9525 10338  9469 10475 10084 10529  9821 10128
-K=20 10528 10834 10273 11104 10057 10582 10227 11003 10380 10743</code></pre>
-<pre class="r"><code>### false positive rates
-round(sva_limma_mash_num_effects/12728, 3)</code></pre>
-<pre><code>      rep1  rep2  rep3  rep4  rep5  rep6  rep7  rep8  rep9 rep10
-K=5  0.561 0.664 0.592 0.625 0.525 0.543 0.720 0.633 0.585 0.671
-K=15 0.758 0.809 0.748 0.812 0.744 0.823 0.792 0.827 0.772 0.796
-K=20 0.827 0.851 0.807 0.872 0.790 0.831 0.804 0.864 0.816 0.844</code></pre>
-<pre class="r"><code>### mash + sample-specific random effects, with or without ruv
-mash_ruv_num_effects &lt;- readRDS(&quot;output/sim_null_mash_ruv_results.Rds&quot;)
+### the number of significant genes by comparing each infected condition to the control (lfsr &lt; 0.05)
+num_effects1</code></pre>
+<pre><code>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8]
+ [1,]    0    0    0    0    0    0    0    0
+ [2,] 1524    6    2    0    0 1110    6   17
+ [3,]  266   13    0    0    0    0    0    0
+ [4,]    3    1    1  365    0    0    0  158
+ [5,]    0    4    0    0    0    0    0    0
+ [6,]    3    0  105    0    0   60    0    1
+ [7,] 3434  798 2815    3 3149  488   33 3357
+ [8,]    0   49    0    0   30  121    4    0
+ [9,]    0   36    0    1    0    5   11  267
+[10,]    0    0    0    0  489    0    0    0</code></pre>
+</div>
+<div id="ash-alpha1-ez-model-shat-calibrated-based-on-z-score." class="section level2">
+<h2>Ash: <span class="math inline">\(\alpha=1\)</span> (EZ model), shat calibrated based on Z-score.</h2>
+<pre class="r"><code>num_effects2 &lt;- matrix(NA, nrow=10, ncol=R-1)
 
-### number of false positives
-mash_ruv_num_effects</code></pre>
-<pre><code>                rep1 rep2 rep3 rep4 rep5 rep6 rep7 rep8 rep9 rep10
-mash_no_ruv        2 5002  120 1311 1781  693 4563 1655 2960  4901
-mash_ruv_K_5_c     0    0    0    0    0    0    0  137    0     0
-mash_ruv_K_5_o   959 3089 1376 3165 1578 1758 5878 4679 2214  2895
-mash_ruv_K_5_w   630 1185  455 2856 1159 1149 5219 3745 2025  2101
-mash_ruv_K_15_c    0   32    0    0    0  139    0   87    0     0
-mash_ruv_K_15_o  512 1175  868 1372   78 2152 2388 2671 1717    82
-mash_ruv_K_15_w  307 1099  164  818    8 2233 2120 2456 1508    44
-mash_ruv_K_20_c    0  254    0    0    0  245    0    0    0     0
-mash_ruv_K_20_o  252 1448  190  432    0 1851 1714 1235 1600   323
-mash_ruv_K_20_w   67 1348   18  298    0 1712 1343  837 1290   179</code></pre>
-<pre class="r"><code>### false positive rates
-round(mash_ruv_num_effects/12728, 3)</code></pre>
-<pre><code>                 rep1  rep2  rep3  rep4  rep5  rep6  rep7  rep8  rep9 rep10
-mash_no_ruv     0.000 0.393 0.009 0.103 0.140 0.054 0.359 0.130 0.233 0.385
-mash_ruv_K_5_c  0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.011 0.000 0.000
-mash_ruv_K_5_o  0.075 0.243 0.108 0.249 0.124 0.138 0.462 0.368 0.174 0.227
-mash_ruv_K_5_w  0.049 0.093 0.036 0.224 0.091 0.090 0.410 0.294 0.159 0.165
-mash_ruv_K_15_c 0.000 0.003 0.000 0.000 0.000 0.011 0.000 0.007 0.000 0.000
-mash_ruv_K_15_o 0.040 0.092 0.068 0.108 0.006 0.169 0.188 0.210 0.135 0.006
-mash_ruv_K_15_w 0.024 0.086 0.013 0.064 0.001 0.175 0.167 0.193 0.118 0.003
-mash_ruv_K_20_c 0.000 0.020 0.000 0.000 0.000 0.019 0.000 0.000 0.000 0.000
-mash_ruv_K_20_o 0.020 0.114 0.015 0.034 0.000 0.145 0.135 0.097 0.126 0.025
-mash_ruv_K_20_w 0.005 0.106 0.001 0.023 0.000 0.135 0.106 0.066 0.101 0.014</code></pre>
-<pre class="r"><code>### poisson mash + sample-specific random effects + ruv
-pois_mash_num_effects &lt;- readRDS(&quot;output/sim_null_pois_mash_ruv_results.Rds&quot;)
+for(idx in 1:10){
+  scdata &lt;- readRDS(paste0(&quot;../simulations/null_data/raw_data&quot;, idx, &quot;.Rds&quot;))
+  
+  ### iterate over conditions 
+  for(r in 1:8){
+    ### take data from one infected condition and the control
+    counts &lt;- scdata[, (design[,1]==1 | design[,r+1]==1)]
+    
+    ### normalize and transform the count data
+    y &lt;- DGEList(counts)
+    y &lt;- calcNormFactors(y)
+    dat_cpm &lt;- cpm(y, log = TRUE)
+    
+    ### construct the covariate matrix
+    data.X &lt;- model.matrix(~design[(design[,1]==1 | design[,r+1]==1), r+1])
+    colnames(data.X) &lt;- c(&quot;Intercept&quot;, &quot;Trt&quot;)
+    
+    ### compute bhat and shat (of the difference between the given condition and the negative control)
+    cov_of_interest = 2
+    lmout = limma::lmFit(object = dat_cpm, design = data.X)
+    eout = limma::eBayes(lmout)
+    bhat = lmout$coefficients[,cov_of_interest]
+    shat = lmout$stdev.unscaled[,cov_of_interest] * sqrt(eout$s2.post)
+    shat.adj = adjust_by_t(bhat, shat, df=ncol(dat_cpm)-2)
+    
+    ### apply ash
+    ash.out = ash(betahat=bhat, sebetahat=shat.adj, mixcompdist=&quot;normal&quot;, alpha=1, lik=lik_normal())
+    num_effects2[idx,r] = sum(ash.out$result$lfsr &lt; 0.05)
+  }
+}
 
-### number of false positives
-pois_mash_num_effects</code></pre>
-<pre><code>                     rep1 rep2 rep3 rep4 rep5 rep6 rep7 rep8 rep9 rep10
-pois_mash_ruv_K_15_c 1460 3173 2010  193 3057  836  113  560  343  4970
-pois_mash_ruv_K_15_w 4627 5139 4395 3312 6246 7890   NA 2440   NA    NA</code></pre>
-<pre class="r"><code>### false positive rates
-round(pois_mash_num_effects/12728, 3)</code></pre>
-<pre><code>                      rep1  rep2  rep3  rep4  rep5  rep6  rep7  rep8  rep9
-pois_mash_ruv_K_15_c 0.115 0.249 0.158 0.015 0.240 0.066 0.009 0.044 0.027
-pois_mash_ruv_K_15_w 0.364 0.404 0.345 0.260 0.491 0.620    NA 0.192    NA
-                     rep10
-pois_mash_ruv_K_15_c  0.39
-pois_mash_ruv_K_15_w    NA</code></pre>
+### the number of significant genes by comparing each infected condition to the control (lfsr &lt; 0.05)
+num_effects2</code></pre>
+<pre><code>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8]
+ [1,]    0    0    0    0    0    0    0    0
+ [2,]  214    0    0    0    0  261    0    0
+ [3,]    2    0    0    0    0    0    0    0
+ [4,]    0    0    0   35    0    0    0    1
+ [5,]    0    0    0    0    0    0    0    0
+ [6,]    0    0    0    0    0    0    0    0
+ [7,] 1904   36 1092    0 1303    9    0 1605
+ [8,]    0    0    0    0    0    1    0    0
+ [9,]    0    0    0    0    0    0    0    0
+[10,]    0    0    0    0   10    0    0    0</code></pre>
+</div>
+<div id="ash-alpha0-ee-model-original-shat." class="section level2">
+<h2>Ash: <span class="math inline">\(\alpha=0\)</span> (EE model), original shat.</h2>
+<pre class="r"><code>num_effects3 &lt;- matrix(NA, nrow=10, ncol=R-1)
+
+for(idx in 1:10){
+  scdata &lt;- readRDS(paste0(&quot;../simulations/null_data/raw_data&quot;, idx, &quot;.Rds&quot;))
+  
+  ### iterate over conditions 
+  for(r in 1:8){
+    ### take data from one infected condition and the control
+    counts &lt;- scdata[, (design[,1]==1 | design[,r+1]==1)]
+    
+    ### normalize and transform the count data
+    y &lt;- DGEList(counts)
+    y &lt;- calcNormFactors(y)
+    dat_cpm &lt;- cpm(y, log = TRUE)
+    
+    ### construct the covariate matrix
+    data.X &lt;- model.matrix(~design[(design[,1]==1 | design[,r+1]==1), r+1])
+    colnames(data.X) &lt;- c(&quot;Intercept&quot;, &quot;Trt&quot;)
+    
+    ### compute bhat and shat (for the difference between the given condition and the negative control)
+    cov_of_interest = 2
+    lmout = limma::lmFit(object = dat_cpm, design = data.X)
+    eout = limma::eBayes(lmout)
+    bhat = lmout$coefficients[,cov_of_interest]
+    shat = lmout$stdev.unscaled[,cov_of_interest] * sqrt(eout$s2.post)
+    
+    ### apply ash
+    ash.out = ash(betahat=bhat, sebetahat=shat, mixcompdist=&quot;normal&quot;, alpha=0, lik=lik_normal())
+    num_effects3[idx,r] = sum(ash.out$result$lfsr &lt; 0.05)
+  }
+}
+
+### the number of significant genes by comparing each infected condition to the control (lfsr &lt; 0.05)
+num_effects3</code></pre>
+<pre><code>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8]
+ [1,]    0    0    0    0    0    0    0    0
+ [2,]  902    4    2    0    0  530    4   13
+ [3,]  144   10    0    0    0    0    0    0
+ [4,]    1    1    0  249    0    0    0   98
+ [5,]    0    1    0    0    0    0    0    0
+ [6,]    3    0   60    0    0   54    0    2
+ [7,] 3280  170 2303    0 2735  237    3 2616
+ [8,]    0   25    0    0   26   62    1    0
+ [9,]    0   12    0    1    0    5    9   94
+[10,]    0    0    0    0  113    0    0    0</code></pre>
+</div>
+<div id="ash-alpha0-ee-model-shat-calibrated-based-on-z-score." class="section level2">
+<h2>Ash: <span class="math inline">\(\alpha=0\)</span> (EE model), shat calibrated based on Z-score.</h2>
+<pre class="r"><code>num_effects4 &lt;- matrix(NA, nrow=10, ncol=R-1)
+
+for(idx in 1:10){
+  scdata &lt;- readRDS(paste0(&quot;../simulations/null_data/raw_data&quot;, idx, &quot;.Rds&quot;))
+  
+  ### iterate over conditions 
+  for(r in 1:8){
+    ### take data from one infected condition and the control
+    counts &lt;- scdata[, (design[,1]==1 | design[,r+1]==1)]
+    
+    ### normalize and transform the count data
+    y &lt;- DGEList(counts)
+    y &lt;- calcNormFactors(y)
+    dat_cpm &lt;- cpm(y, log = TRUE)
+    
+    ### construct the covariate matrix
+    data.X &lt;- model.matrix(~design[(design[,1]==1 | design[,r+1]==1), r+1])
+    colnames(data.X) &lt;- c(&quot;Intercept&quot;, &quot;Trt&quot;)
+    
+    ### compute bhat and shat (for the difference between the given condition and the negative control)
+    cov_of_interest = 2
+    lmout = limma::lmFit(object = dat_cpm, design = data.X)
+    eout = limma::eBayes(lmout)
+    bhat = lmout$coefficients[,cov_of_interest]
+    shat = lmout$stdev.unscaled[,cov_of_interest] * sqrt(eout$s2.post)
+    shat.adj = adjust_by_t(bhat, shat, df=ncol(dat_cpm)-2)
+    
+    ### apply ash
+    ash.out = ash(betahat=bhat, sebetahat=shat.adj, mixcompdist=&quot;normal&quot;, alpha=0, lik=lik_normal())
+    num_effects4[idx,r] = sum(ash.out$result$lfsr &lt; 0.05)
+  }
+}
+
+### the number of significant genes by comparing each infected condition to the control (lfsr &lt; 0.05)
+num_effects4</code></pre>
+<pre><code>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8]
+ [1,]    0    0    0    0    0    0    0    0
+ [2,]   41    0    0    0    0    9    0    0
+ [3,]    0    0    0    0    0    0    0    0
+ [4,]    0    0    0    0    0    0    0    0
+ [5,]    0    0    0    0    0    0    0    0
+ [6,]    0    0    0    0    0    0    0    0
+ [7,] 1657    0  667    0  913    0    0 1072
+ [8,]    0    0    0    0    0    0    0    0
+ [9,]    0    0    0    0    0    0    0    0
+[10,]    0    0    0    0    0    0    0    0</code></pre>
+</div>
+<div id="mouthwash-number-of-hidden-confounders-k3-original-shat." class="section level2">
+<h2>Mouthwash: number of hidden confounders <span class="math inline">\(K=3\)</span>, original shat.</h2>
+<pre class="r"><code>m.out &lt;- readRDS(&quot;output/sim_null_mouthwash_K_3_results.Rds&quot;)
+
+### the estimate of the proportion of null genes
+round(m.out$pi0, 3)</code></pre>
+<pre><code>      cond1 cond2 cond3 cond4 cond5 cond6 cond7 cond8
+rep1  0.522 0.995 0.060 0.732 0.121 0.901 0.763 0.411
+rep2  0.285 0.095 0.847 0.157 0.364 0.034 0.360 0.067
+rep3  0.242 0.528 0.883 0.413 0.647 0.821 0.851 0.395
+rep4  0.395 0.055 0.202 0.089 0.143 0.049 0.141 0.082
+rep5  0.997 0.450 0.924 0.970 0.893 0.926 0.823 0.977
+rep6  0.156 0.297 0.024 0.741 0.081 0.234 0.192 0.030
+rep7  0.009 0.118 0.054 0.690 0.063 0.195 0.053 0.032
+rep8  0.996 0.242 0.993 0.334 0.038 0.609 0.197 0.231
+rep9  0.916 0.250 0.879 0.275 0.414 0.415 0.256 0.509
+rep10 0.883 0.607 0.845 0.263 0.281 0.966 0.752 0.293</code></pre>
+<pre class="r"><code>### the number of significant genes by comparing each infected condition to the control (lfsr &lt; 0.05)
+m.out$num_effects</code></pre>
+<pre><code>      cond1 cond2 cond3 cond4 cond5 cond6 cond7 cond8
+rep1     14     0   544    59   251     6    39    41
+rep2    412   639    76   113    48  4275   187  2022
+rep3   1232   291    35   176    66     5    18    64
+rep4     81  1020   442  2745   234   250   577  1989
+rep5      0   221    22     1    14     1     6    10
+rep6    670    16  2581    31  1290  1137   346  2118
+rep7   4906   821  4539    46  1902  1718  1839  4865
+rep8      4   599     2    67  2981   437   346   183
+rep9     16   588    71    84    46   462   905   173
+rep10    16    52     4   457   170     3     6    68</code></pre>
+</div>
+<div id="mouthwash-number-of-hidden-confounders-k3-shat-calibrated-based-on-z-score." class="section level2">
+<h2>Mouthwash: number of hidden confounders <span class="math inline">\(K=3\)</span>, shat calibrated based on Z-score.</h2>
+<pre class="r"><code>m.out &lt;- readRDS(&quot;output/sim_null_mouthwash_K_3_t_lik_results.Rds&quot;)
+
+### the estimate of the proportion of null genes
+round(m.out$pi0, 3)</code></pre>
+<pre><code>      cond1 cond2 cond3 cond4 cond5 cond6 cond7 cond8
+rep1  0.984 0.997 0.075 0.978 0.208 0.992 0.952 0.654
+rep2  0.365 0.075 0.962 0.236 0.508 0.011 0.443 0.027
+rep3  0.075 0.436 0.989 0.246 0.918 0.996 0.985 0.716
+rep4  0.842 0.039 0.095 0.021 0.184 0.089 0.078 0.031
+rep5  0.998 0.515 0.995 0.995 0.995 0.994 0.988 0.995
+rep6  0.074 0.940 0.023 0.947 0.040 0.073 0.114 0.022
+rep7  0.007 0.108 0.012 0.924 0.052 0.070 0.042 0.010
+rep8  0.998 0.114 0.997 0.420 0.017 0.834 0.164 0.238
+rep9  0.995 0.102 0.959 0.320 0.522 0.226 0.074 0.895
+rep10 0.988 0.834 0.991 0.099 0.711 0.995 0.989 0.372</code></pre>
+<pre class="r"><code>### the number of significant genes by comparing each infected condition to the control (lfsr &lt; 0.05)
+m.out$num_effects</code></pre>
+<pre><code>      cond1 cond2 cond3 cond4 cond5 cond6 cond7 cond8
+rep1      1     0     6     0     5     0     0     0
+rep2     29    37     2     0     0  2863     8   812
+rep3    546     8     0     2     1     0     0     0
+rep4      2   162    55  1880     1     2    59  1098
+rep5      0     7     0     0     0     0     0     0
+rep6    106     0   836     0   344   665    14   596
+rep7   2857    87  3470     2   432   939   400  3642
+rep8      0   130     0     0  1449   158    10     2
+rep9      1    87     0     0     0    68   490     3
+rep10     0     0     0    43     0     0     0     0</code></pre>
+</div>
+<div id="mouthwash-number-of-hidden-confounders-k6-original-shat." class="section level2">
+<h2>Mouthwash: number of hidden confounders <span class="math inline">\(K=6\)</span>, original shat.</h2>
+<pre class="r"><code>m.out &lt;- readRDS(&quot;output/sim_null_mouthwash_K_6_results.Rds&quot;)
+
+### the estimate of the proportion of null genes
+round(m.out$pi0, 3)</code></pre>
+<pre><code>      cond1 cond2 cond3 cond4 cond5 cond6 cond7 cond8
+rep1  0.417 0.623 0.535 0.141 0.495 0.336 0.335 0.059
+rep2  0.120 0.259 0.337 0.485 0.202 0.133 0.191 0.132
+rep3  0.036 0.129 0.082 0.446 0.278 0.473 0.418 0.101
+rep4  0.268 0.487 0.149 0.062 0.273 0.522 0.485 0.205
+rep5  0.868 0.383 0.540 0.787 0.561 0.803 0.675 0.513
+rep6  0.073 0.515 0.081 0.508 0.109 0.172 0.105 0.208
+rep7  0.033 0.222 0.029 0.561 0.078 0.093 0.197 0.038
+rep8  0.913 0.558 0.838 0.620 0.144 0.262 0.424 0.189
+rep9  0.196 0.077 0.225 0.407 0.399 0.418 0.117 0.124
+rep10 0.422 0.383 0.135 0.197 0.595 0.679 0.719 0.172</code></pre>
+<pre class="r"><code>### the number of significant genes by comparing each infected condition to the control (lfsr &lt; 0.05)
+m.out$num_effects</code></pre>
+<pre><code>      cond1 cond2 cond3 cond4 cond5 cond6 cond7 cond8
+rep1    403   226   368  1859   463   432   908  2001
+rep2   2232  1030   816   353   495  2944  1113  2409
+rep3   5725  2319  1892   733   725   428   493   847
+rep4    715   505  1529  4406   492   269   515  1505
+rep5     32   904   386    47   410    62   209   254
+rep6   3094   286  2784   340  2303  2627  1681  1124
+rep7   4164  1526  5847   623  2279  3232  1555  5912
+rep8     58   607    40   248  2032  1513   547  1123
+rep9    972  2580  1093   332   657  1271  2447  2463
+rep10   468   851   860  1703   407   166   168   937</code></pre>
+</div>
+<div id="mouthwash-number-of-hidden-confounders-k6-shat-calibrated-based-on-z-score." class="section level2">
+<h2>Mouthwash: number of hidden confounders <span class="math inline">\(K=6\)</span>, shat calibrated based on Z-score.</h2>
+<pre class="r"><code>m.out &lt;- readRDS(&quot;output/sim_null_mouthwash_K_6_t_lik_results.Rds&quot;)
+
+### the estimate of the proportion of null genes
+round(m.out$pi0, 3)</code></pre>
+<pre><code>      cond1 cond2 cond3 cond4 cond5 cond6 cond7 cond8
+rep1  0.847 0.902 0.882 0.069 0.817 0.231 0.096 0.041
+rep2  0.245 0.123 0.191 0.668 0.143 0.048 0.185 0.039
+rep3  0.007 0.035 0.044 0.366 0.335 0.495 0.204 0.138
+rep4  0.642 0.472 0.045 0.014 0.480 0.874 0.474 0.190
+rep5  0.994 0.504 0.947 0.994 0.829 0.992 0.898 0.927
+rep6  0.020 0.553 0.046 0.360 0.028 0.041 0.040 0.125
+rep7  0.030 0.417 0.012 0.798 0.325 0.089 0.436 0.010
+rep8  0.995 0.688 0.997 0.929 0.055 0.487 0.693 0.088
+rep9  0.612 0.040 0.099 0.542 0.436 0.322 0.038 0.257
+rep10 0.328 0.286 0.102 0.040 0.963 0.931 0.971 0.089</code></pre>
+<pre class="r"><code>### the number of significant genes by comparing each infected condition to the control (lfsr &lt; 0.05)
+m.out$num_effects</code></pre>
+<pre><code>      cond1 cond2 cond3 cond4 cond5 cond6 cond7 cond8
+rep1     19     1    15   206    34    11   250   306
+rep2    282   138    65    18     6  1303   148   738
+rep3   3831  1065   386    80    29    10    20    39
+rep4     25    24   594  2846    37     6    25   358
+rep5      0   117    38     0    30     4    13     3
+rep6   1479     4   878     4  1257  1926   368   116
+rep7   1178   166  3408    57   195   932   120  3828
+rep8      1    66     0    13   520   368    45   115
+rep9     34   470   230     4    27   209  1020   215
+rep10    19   154    25   692    30     4     6    99</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -1087,20 +992,18 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] edgeR_3.28.1    limma_3.42.2    mashr_0.2.21    ashr_2.2-50    
-[5] workflowr_1.6.2
+[1] edgeR_3.28.1    limma_3.42.2    ashr_2.2-50     workflowr_1.6.2
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.6       compiler_3.6.2   later_1.0.0      git2r_0.27.1    
- [5] plyr_1.8.6       tools_3.6.2      digest_0.6.27    evaluate_0.14   
- [9] lattice_0.20-41  rlang_0.4.10     Matrix_1.2-18    yaml_2.2.1      
-[13] mvtnorm_1.1-0    xfun_0.17        invgamma_1.1     stringr_1.4.0   
-[17] knitr_1.30       fs_1.4.1         locfit_1.5-9.4   rprojroot_2.0.2 
-[21] grid_3.6.2       glue_1.4.2       R6_2.5.0         rmarkdown_2.3   
-[25] mixsqp_0.3-43    irlba_2.3.3      rmeta_3.0        magrittr_2.0.1  
-[29] whisker_0.4      promises_1.1.0   htmltools_0.4.0  abind_1.4-5     
-[33] assertthat_0.2.1 httpuv_1.5.2     stringi_1.4.6    truncnorm_1.0-8 
-[37] SQUAREM_2021.1  </code></pre>
+ [1] Rcpp_1.0.6       knitr_1.30       whisker_0.4      magrittr_2.0.1  
+ [5] SQUAREM_2021.1   lattice_0.20-41  R6_2.5.0         rlang_0.4.10    
+ [9] stringr_1.4.0    tools_3.6.2      grid_3.6.2       xfun_0.17       
+[13] irlba_2.3.3      invgamma_1.1     git2r_0.27.1     htmltools_0.4.0 
+[17] assertthat_0.2.1 yaml_2.2.1       digest_0.6.27    rprojroot_2.0.2 
+[21] mixsqp_0.3-43    Matrix_1.2-18    later_1.0.0      promises_1.1.0  
+[25] fs_1.4.1         glue_1.4.2       evaluate_0.14    rmarkdown_2.3   
+[29] stringi_1.4.6    compiler_3.6.2   locfit_1.5-9.4   truncnorm_1.0-8 
+[33] httpuv_1.5.2    </code></pre>
 </div>
 </div>
 

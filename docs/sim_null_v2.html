@@ -387,7 +387,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Testing differential expression on simulated bulk rna-seq data under the null (different permutation)</h1>
 <h4 class="author">Yusha Liu</h4>
-<h4 class="date">2021-2-17</h4>
+<h4 class="date">2021-3-1</h4>
 
 </div>
 
@@ -412,7 +412,7 @@ div.tocify {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2021-02-18
+<strong>Last updated:</strong> 2021-03-02
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -503,16 +503,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomYushaLiutbdatasimtreef89afa3be1d196935c7a100e01656714d4805eb9targetblankf89afa3a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/YushaLiu/tbdata_sim/tree/f89afa3be1d196935c7a100e01656714d4805eb9" target="_blank">f89afa3</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomYushaLiutbdatasimtree49f553ce61548f8f6f6c6ff4a78057a4ca03850dtargetblank49f553ca"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/YushaLiu/tbdata_sim/tree/49f553ce61548f8f6f6c6ff4a78057a4ca03850d" target="_blank">49f553c</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomYushaLiutbdatasimtreef89afa3be1d196935c7a100e01656714d4805eb9targetblankf89afa3a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomYushaLiutbdatasimtree49f553ce61548f8f6f6c6ff4a78057a4ca03850dtargetblank49f553ca" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/YushaLiu/tbdata_sim/tree/f89afa3be1d196935c7a100e01656714d4805eb9" target="_blank">f89afa3</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/YushaLiu/tbdata_sim/tree/49f553ce61548f8f6f6c6ff4a78057a4ca03850d" target="_blank">49f553c</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -524,12 +524,26 @@ Ignored files:
     Ignored:    output/.DS_Store
 
 Untracked files:
-    Untracked:  output/mouthwash_sim_null_summary.Rds
-    Untracked:  output/mouthwash_sim_null_v2_summary.Rds
-    Untracked:  output/mouthwash_t_lik_sim_null_summary.Rds
-    Untracked:  output/mouthwash_t_lik_sim_null_v2_summary.Rds
+    Untracked:  code/code_sim_null_summary.R
+    Untracked:  code/code_sim_null_v2_summary.R
     Untracked:  output/null_output/
     Untracked:  output/null_v2_output/
+    Untracked:  output/sim_null_limma_mash_results.Rds
+    Untracked:  output/sim_null_mash_ruv_results.Rds
+    Untracked:  output/sim_null_mouthwash_K_3_results.Rds
+    Untracked:  output/sim_null_mouthwash_K_3_t_lik_results.Rds
+    Untracked:  output/sim_null_mouthwash_K_6_results.Rds
+    Untracked:  output/sim_null_mouthwash_K_6_t_lik_results.Rds
+    Untracked:  output/sim_null_pois_mash_ruv_results.Rds
+    Untracked:  output/sim_null_sva_limma_mash_results.Rds
+    Untracked:  output/sim_null_v2_limma_mash_results.Rds
+    Untracked:  output/sim_null_v2_mash_ruv_results.Rds
+    Untracked:  output/sim_null_v2_mouthwash_K_3_results.Rds
+    Untracked:  output/sim_null_v2_mouthwash_K_3_t_lik_results.Rds
+    Untracked:  output/sim_null_v2_pois_mash_ruv_results.Rds
+
+Unstaged changes:
+    Deleted:    analysis/sim_null_ash.Rmd
 
 </code></pre>
 <p>
@@ -568,6 +582,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/YushaLiu/tbdata_sim/blob/49f553ce61548f8f6f6c6ff4a78057a4ca03850d/analysis/sim_null_v2.Rmd" target="_blank">49f553c</a>
+</td>
+<td>
+yushaliu
+</td>
+<td>
+2021-03-02
+</td>
+<td>
+update sim results
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/YushaLiu/tbdata_sim/65693142139dc76ef544a147e3b2ee53f297b068/docs/sim_null_v2.html" target="_blank">6569314</a>
+</td>
+<td>
+yushaliu
+</td>
+<td>
+2021-02-18
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -631,153 +679,127 @@ Add the simulation results
 <p>We apply various methods to detect differential exression on bulk rna-seq data simulated under the null. More specifically, we start with a subset of the <a href="https://pubmed.ncbi.nlm.nih.gov/26586179/">tbdata</a> which includes the gene expression data of 12,728 genes from 54 samples infected by 8 different types of bacteria and one non-infected control (6 individuals per condition), measured at 4 hours post-infection. Then we randomly permute the samples with respect to the condition labels so that there no longer exists association between gene expression levels and conditions.</p>
 <p>There are two different ways to randomly permute the data: 1) the same permutation to all the genes, so the correlation among genes is preserved on the permuted dataset; 2) independent and different permutation to each gene. Here we simulate null data by applying different and independent permutations to each gene; we simulate 10 replicate datasets in total.</p>
 </div>
-<div id="methods" class="section level2">
-<h2>Methods</h2>
+<div id="methods-multi-condition-comparisons" class="section level2">
+<h2>Methods: multi-condition comparisons</h2>
 <p>We consider the following methods to compare gene expression levels under each infected condition to the control on the simulated null data. For methods related to mash, we always assume <span class="math inline">\(\alpha = 1\)</span>, i.e., the EZ model.</p>
-<p>1. limma + mash with common baseline.</p>
+<p>1. limma + mash with common baseline, with or without voom procedure.</p>
 <p>2. sva + limma + mash with common baseline.</p>
-<p>3. mash + sample-specific random effects.</p>
-<p>4. mash + sample-specific random effects + ruv, with variance inflation factor constrained to be at least 1.</p>
-<p>5. poisson mash + sample-specific random effects + ruv.</p>
+<p>3. mash + sample-specific random effects without accounting for unwanted variation.</p>
+<p>4. mash + sample-specific random effects + ruv, with variance inflation factor constrained to be at least 1. Here we include both data-driven and canonical prior covariances. To identify the subset of “strong” genes that are used to estimate data-driven covariances, we first subtract the estimated bias caused by unwanted variation from <span class="math inline">\(\hat{b}\)</span> to get <span class="math inline">\(\hat{\tilde{b}}\)</span>, and then calculate Z-scores using <span class="math inline">\(\hat{\tilde{b}}\)</span> and <span class="math inline">\(\hat{s}\)</span>. The genes with <span class="math inline">\(\max_{r} |Z_{jr}| &gt; 3.5\)</span> are identified as “strong” genes.</p>
+<p>5. poisson mash + sample-specific random effects + ruv. We consider including (i) canonical prior covariances only, and (ii) both data-driven and canonical prior covariances.</p>
 </div>
-<div id="result-summary" class="section level2">
-<h2>Result summary</h2>
-<pre class="r"><code>library(mashr)
-
-### limma + mash with common baseline
-num_effects_1 &lt;- rep(NA, 10)
-
-for(i in 1:10){
-  mash.fit &lt;- readRDS(paste0(&quot;output/null_v2_output/mash_fit_rep_&quot;, i, &quot;.Rds&quot;))
-  idx.mash &lt;- get_significant_results(mash.fit)
-  num_effects_1[i] &lt;- length(idx.mash)
-}
-
-### number of false positives
-num_effects_1</code></pre>
-<pre><code> [1]  9  4  4 10 10  8  6  2  8  4</code></pre>
-<pre class="r"><code>### false positive rates
-round(num_effects_1/nrow(mash.fit$result$lfsr), 3)</code></pre>
-<pre><code> [1] 0.001 0.000 0.000 0.001 0.001 0.001 0.000 0.000 0.001 0.000</code></pre>
-<pre class="r"><code>### sva + limma + mash with common baseline 
-num_effects_2 &lt;- rep(NA, 10)
-
-for(i in 1:10){
-  mash.fit &lt;- readRDS(paste0(&quot;output/null_v2_output/sva_mash_fit_rep_&quot;, i, &quot;.Rds&quot;))
-  idx.mash &lt;- get_significant_results(mash.fit)
-  num_effects_2[i] &lt;- length(idx.mash)
-}
-
-### number of false positives
-num_effects_2</code></pre>
-<pre><code> [1]  26  15  91  18  64 181  47   8  17  16</code></pre>
-<pre class="r"><code>### false positive rates
-round(num_effects_2/nrow(mash.fit$result$lfsr), 3)</code></pre>
-<pre><code> [1] 0.002 0.001 0.007 0.001 0.005 0.014 0.004 0.001 0.001 0.001</code></pre>
-<pre class="r"><code>### mash + sample-specific random effects
-num_effects_3 &lt;- rep(NA, 10)
-
-for(i in 1:10){
-  mash.fit &lt;- readRDS(paste0(&quot;output/null_v2_output/mash_no_ruv_posterior_rep_&quot;, i, &quot;.Rds&quot;))
-  num_effects_3[i] &lt;- sum(apply(mash.fit$lfsr, 1, min) &lt; 0.05)
-}
-
-### number of false positives
-num_effects_3</code></pre>
-<pre><code> [1] 0 0 0 0 0 0 0 0 0 0</code></pre>
-<pre class="r"><code>### false positive rates
-round(num_effects_3/nrow(mash.fit$lfsr), 3)</code></pre>
-<pre><code> [1] 0 0 0 0 0 0 0 0 0 0</code></pre>
-<pre class="r"><code>### mash + sample-specific random effects + ruv
-num_effects_4 &lt;- rep(NA, 10)
-
-for(i in 1:10){
-  mash.fit &lt;- readRDS(paste0(&quot;output/null_v2_output/mash_ruv_posterior_rep_&quot;, i, &quot;.Rds&quot;))
-  num_effects_4[i] &lt;- sum(apply(mash.fit$lfsr, 1, min) &lt; 0.05)
-}
-
-### number of false positives
-num_effects_4</code></pre>
-<pre><code> [1] 0 0 0 1 4 2 2 1 1 1</code></pre>
-<pre class="r"><code>### false positive rates
-round(num_effects_4/nrow(mash.fit$lfsr), 3)</code></pre>
-<pre><code> [1] 0 0 0 0 0 0 0 0 0 0</code></pre>
-<pre class="r"><code>### poisson mash + sample-specific random effects + ruv
-num_effects_5 &lt;- rep(NA, 10)
-
-for(i in 1:10){
-  pois.fit &lt;- readRDS(paste0(&quot;output/null_v2_output/pois_mash_ruv_posterior_rep_&quot;, i, &quot;.Rds&quot;))
-  num_effects_5[i] &lt;- sum(apply(pois.fit$lfsr, 1, min) &lt; 0.05)
-}
-
-### number of false positives
-num_effects_5</code></pre>
-<pre><code> [1]  637 1809  519  161  674  981  804  974  329  550</code></pre>
-<pre class="r"><code>### false positive rates
-round(num_effects_5/nrow(pois.fit$lfsr), 3)</code></pre>
-<pre><code> [1] 0.050 0.142 0.041 0.013 0.053 0.077 0.063 0.077 0.026 0.043</code></pre>
+<div id="methods-pairwise-comparisons" class="section level2">
+<h2>Methods: pairwise comparisons</h2>
+<p>We apply mouthwash to do pairwise comparisons of gene expressions between each infected condition and the control on the simulated null data.</p>
 </div>
-<div id="look-at-pairwise-comparisons-with-control-using-mouthwash-sprop1" class="section level2">
-<h2>Look at pairwise comparisons with control using MOUTHWASH (sprop=1)</h2>
-<pre class="r"><code>m.out &lt;- readRDS(&quot;output/mouthwash_sim_null_v2_summary.Rds&quot;)
+<div id="results-limma-mash-with-common-baseline" class="section level2">
+<h2>Results: limma + mash with common baseline</h2>
+<pre class="r"><code>limma_mash_num_effects &lt;- readRDS(&quot;output/sim_null_v2_limma_mash_results.Rds&quot;)
 
-## the estimate of the proportion of null genes
+### number of false positives
+limma_mash_num_effects</code></pre>
+<pre><code>                   rep1 rep2 rep3 rep4 rep5 rep6 rep7 rep8 rep9 rep10
+limma_mash            9    4    4   10   10    8    6    2    8     4
+voom_limma_mash     227  272  276  234  238  236  269  230  213   187
+sva_K_5_limma_mash   24    9    0    0   59  128    0    8    9    14</code></pre>
+<pre class="r"><code>### false positive rates
+round(limma_mash_num_effects/12728, 3)</code></pre>
+<pre><code>                    rep1  rep2  rep3  rep4  rep5  rep6  rep7  rep8  rep9 rep10
+limma_mash         0.001 0.000 0.000 0.001 0.001 0.001 0.000 0.000 0.001 0.000
+voom_limma_mash    0.018 0.021 0.022 0.018 0.019 0.019 0.021 0.018 0.017 0.015
+sva_K_5_limma_mash 0.002 0.001 0.000 0.000 0.005 0.010 0.000 0.001 0.001 0.001</code></pre>
+</div>
+<div id="results-mash-sample-specific-random-effects-with-or-without-ruv" class="section level2">
+<h2>Results: mash + sample-specific random effects, with or without ruv</h2>
+<pre class="r"><code>mash_ruv_num_effects &lt;- readRDS(&quot;output/sim_null_v2_mash_ruv_results.Rds&quot;)
+
+### number of false positives
+mash_ruv_num_effects</code></pre>
+<pre><code>               rep1 rep2 rep3 rep4 rep5 rep6 rep7 rep8 rep9 rep10
+mash_no_ruv       0    0    0    0    0    0    0    0    0     0
+mash_ruv_K_5_w    0    0    0    0    0    0    0    0    0     0</code></pre>
+<pre class="r"><code>### false positive rates
+round(mash_ruv_num_effects/12728, 3)</code></pre>
+<pre><code>               rep1 rep2 rep3 rep4 rep5 rep6 rep7 rep8 rep9 rep10
+mash_no_ruv       0    0    0    0    0    0    0    0    0     0
+mash_ruv_K_5_w    0    0    0    0    0    0    0    0    0     0</code></pre>
+</div>
+<div id="results-poisson-mash-sample-specific-random-effects-ruv" class="section level2">
+<h2>Results: poisson mash + sample-specific random effects + ruv</h2>
+<pre class="r"><code>pois_mash_num_effects &lt;- readRDS(&quot;output/sim_null_v2_pois_mash_ruv_results.Rds&quot;)
+
+### number of false positives
+pois_mash_num_effects</code></pre>
+<pre><code>                    rep1 rep2 rep3 rep4 rep5 rep6 rep7 rep8 rep9 rep10
+pois_mash_ruv_K_5_c   16   16    5    9    9   28   12   14    5     7
+pois_mash_ruv_K_5_w  160  365  535  473  251  412  655  365  505   483</code></pre>
+<pre class="r"><code>### false positive rates
+round(pois_mash_num_effects/12728, 3)</code></pre>
+<pre><code>                     rep1  rep2  rep3  rep4  rep5  rep6  rep7  rep8 rep9 rep10
+pois_mash_ruv_K_5_c 0.001 0.001 0.000 0.001 0.001 0.002 0.001 0.001 0.00 0.001
+pois_mash_ruv_K_5_w 0.013 0.029 0.042 0.037 0.020 0.032 0.051 0.029 0.04 0.038</code></pre>
+</div>
+<div id="results-pairwise-comparisons-with-control-using-mouthwash-k3-sprop1" class="section level2">
+<h2>Results: pairwise comparisons with control using mouthwash (K=3, sprop=1)</h2>
+<pre class="r"><code>m.out &lt;- readRDS(&quot;output/sim_null_v2_mouthwash_K_3_results.Rds&quot;)
+
+### the estimate of the proportion of null genes
 round(m.out$pi0, 3)</code></pre>
-<pre><code>       [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]
- [1,] 0.866 0.861 0.855 0.866 0.862 0.882 0.863 0.873
- [2,] 0.855 0.848 0.868 0.826 0.827 0.840 0.830 0.828
- [3,] 0.838 0.833 0.854 0.890 0.877 0.842 0.815 0.876
- [4,] 0.800 0.871 0.839 0.844 0.854 0.836 0.803 0.852
- [5,] 0.847 0.814 0.866 0.849 0.817 0.825 0.842 0.851
- [6,] 0.845 0.842 0.844 0.867 0.867 0.835 0.832 0.844
- [7,] 0.799 0.793 0.843 0.822 0.849 0.834 0.861 0.847
- [8,] 0.891 0.870 0.881 0.869 0.854 0.860 0.865 0.861
- [9,] 0.831 0.846 0.861 0.843 0.842 0.838 0.883 0.866
-[10,] 0.843 0.840 0.827 0.813 0.833 0.829 0.861 0.858</code></pre>
-<pre class="r"><code>## the number of DE genes by comparing each infected condition to the control (lfsr &lt; 0.05)
-m.out$num_effects_1</code></pre>
-<pre><code>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8]
- [1,]    8    9    7   10    7   14   11   12
- [2,]   13    8    8    7   10   13   18   13
- [3,]   10   12   18   12   16   10   10   15
- [4,]    3   14   10   10    9   10   11    9
- [5,]    6   11   16   14    8   10   13    8
- [6,]    7    8   12    7   12   11   10    8
- [7,]    5    7    5    8    7    7    8   11
- [8,]    7    7    7   11   11    4   10   14
- [9,]   14   11    8    7    8    8   15    7
-[10,]   11    9    4    7    5    5    9    7</code></pre>
+<pre><code>      cond1 cond2 cond3 cond4 cond5 cond6 cond7 cond8
+rep1  0.866 0.861 0.855 0.866 0.862 0.882 0.863 0.873
+rep2  0.855 0.848 0.868 0.826 0.827 0.840 0.830 0.828
+rep3  0.838 0.833 0.854 0.890 0.877 0.842 0.815 0.876
+rep4  0.800 0.871 0.839 0.844 0.854 0.836 0.803 0.852
+rep5  0.847 0.814 0.866 0.849 0.817 0.825 0.842 0.851
+rep6  0.845 0.842 0.844 0.867 0.867 0.835 0.832 0.844
+rep7  0.799 0.793 0.843 0.822 0.849 0.834 0.861 0.847
+rep8  0.891 0.870 0.881 0.869 0.854 0.860 0.865 0.861
+rep9  0.831 0.846 0.861 0.843 0.842 0.838 0.883 0.866
+rep10 0.843 0.840 0.827 0.813 0.833 0.829 0.861 0.858</code></pre>
+<pre class="r"><code>### the number of significant genes by comparing each infected condition to the control (lfsr &lt; 0.05)
+m.out$num_effects</code></pre>
+<pre><code>      cond1 cond2 cond3 cond4 cond5 cond6 cond7 cond8
+rep1      8     9     7    10     7    14    11    12
+rep2     13     8     8     7    10    13    18    13
+rep3     10    12    18    12    16    10    10    15
+rep4      3    14    10    10     9    10    11     9
+rep5      6    11    16    14     8    10    13     8
+rep6      7     8    12     7    12    11    10     8
+rep7      5     7     5     8     7     7     8    11
+rep8      7     7     7    11    11     4    10    14
+rep9     14    11     8     7     8     8    15     7
+rep10    11     9     4     7     5     5     9     7</code></pre>
 </div>
-<div id="look-at-pairwise-comparisons-with-control-using-mouthwash-with-calibrated-shat-sprop1" class="section level2">
-<h2>Look at pairwise comparisons with control using MOUTHWASH, with calibrated shat (sprop=1)</h2>
-<pre class="r"><code>m.out &lt;- readRDS(&quot;output/mouthwash_t_lik_sim_null_v2_summary.Rds&quot;)
+<div id="results-pairwise-comparisons-with-control-using-mouthwash-with-calibrated-shat-k3-sprop1" class="section level2">
+<h2>Results: pairwise comparisons with control using mouthwash, with calibrated shat (K=3, sprop=1)</h2>
+<pre class="r"><code>m.out &lt;- readRDS(&quot;output/sim_null_v2_mouthwash_K_3_t_lik_results.Rds&quot;)
 
-## the estimate of the proportion of null genes
+### the estimate of the proportion of null genes
 round(m.out$pi0, 3)</code></pre>
-<pre><code>       [,1]  [,2]  [,3]  [,4]  [,5]  [,6]  [,7]  [,8]
- [1,] 0.972 0.973 0.977 0.970 0.975 0.973 0.972 0.976
- [2,] 0.968 0.969 0.974 0.967 0.963 0.966 0.950 0.965
- [3,] 0.961 0.960 0.955 0.980 0.976 0.966 0.958 0.974
- [4,] 0.969 0.965 0.970 0.965 0.973 0.961 0.959 0.966
- [5,] 0.966 0.957 0.968 0.964 0.960 0.962 0.961 0.968
- [6,] 0.971 0.971 0.960 0.978 0.972 0.962 0.962 0.971
- [7,] 0.961 0.958 0.970 0.966 0.969 0.959 0.975 0.970
- [8,] 0.983 0.972 0.984 0.973 0.971 0.975 0.973 0.969
- [9,] 0.961 0.958 0.976 0.971 0.977 0.960 0.971 0.978
-[10,] 0.974 0.971 0.969 0.966 0.973 0.970 0.971 0.972</code></pre>
-<pre class="r"><code>## the number of DE genes by comparing each infected condition to the control (lfsr &lt; 0.05)
-m.out$num_effects_1</code></pre>
-<pre><code>      [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8]
- [1,]    0    0    0    0    0    0    0    0
- [2,]    0    0    0    0    0    0    0    0
- [3,]    0    0    0    0    0    0    0    0
- [4,]    0    0    0    0    0    0    0    0
- [5,]    0    0    0    0    0    0    0    0
- [6,]    0    0    0    0    0    0    0    0
- [7,]    0    0    0    0    0    0    0    0
- [8,]    0    0    0    0    0    0    0    0
- [9,]    0    0    1    0    0    0    0    0
-[10,]    0    0    0    0    0    0    0    0</code></pre>
+<pre><code>      cond1 cond2 cond3 cond4 cond5 cond6 cond7 cond8
+rep1  0.972 0.973 0.977 0.970 0.975 0.973 0.972 0.976
+rep2  0.968 0.969 0.974 0.967 0.963 0.966 0.950 0.965
+rep3  0.961 0.960 0.955 0.980 0.976 0.966 0.958 0.974
+rep4  0.969 0.965 0.970 0.965 0.973 0.961 0.959 0.966
+rep5  0.966 0.957 0.968 0.964 0.960 0.962 0.961 0.968
+rep6  0.971 0.971 0.960 0.978 0.972 0.962 0.962 0.971
+rep7  0.961 0.958 0.970 0.966 0.969 0.959 0.975 0.970
+rep8  0.983 0.972 0.984 0.973 0.971 0.975 0.973 0.969
+rep9  0.961 0.958 0.976 0.971 0.977 0.960 0.971 0.978
+rep10 0.974 0.971 0.969 0.966 0.973 0.970 0.971 0.972</code></pre>
+<pre class="r"><code>### the number of significant genes by comparing each infected condition to the control (lfsr &lt; 0.05)
+m.out$num_effects</code></pre>
+<pre><code>      cond1 cond2 cond3 cond4 cond5 cond6 cond7 cond8
+rep1      0     0     0     0     0     0     0     0
+rep2      0     0     0     0     0     0     0     0
+rep3      0     0     0     0     0     0     0     0
+rep4      0     0     0     0     0     0     0     0
+rep5      0     0     0     0     0     0     0     0
+rep6      0     0     0     0     0     0     0     0
+rep7      0     0     0     0     0     0     0     0
+rep8      0     0     0     0     0     0     0     0
+rep9      0     0     1     0     0     0     0     0
+rep10     0     0     0     0     0     0     0     0</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -801,18 +823,15 @@ attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] mashr_0.2.21    ashr_2.2-50     workflowr_1.6.2
+[1] workflowr_1.6.2
 
 loaded via a namespace (and not attached):
- [1] Rcpp_1.0.6       knitr_1.30       whisker_0.4      magrittr_2.0.1  
- [5] SQUAREM_2021.1   lattice_0.20-41  R6_2.5.0         rlang_0.4.10    
- [9] plyr_1.8.6       stringr_1.4.0    tools_3.6.2      grid_3.6.2      
-[13] xfun_0.17        rmeta_3.0        irlba_2.3.3      invgamma_1.1    
-[17] git2r_0.27.1     htmltools_0.4.0  assertthat_0.2.1 abind_1.4-5     
-[21] yaml_2.2.1       digest_0.6.27    rprojroot_2.0.2  mixsqp_0.3-43   
-[25] Matrix_1.2-18    later_1.0.0      promises_1.1.0   fs_1.4.1        
-[29] glue_1.4.2       evaluate_0.14    rmarkdown_2.3    stringi_1.4.6   
-[33] compiler_3.6.2   mvtnorm_1.1-0    truncnorm_1.0-8  httpuv_1.5.2    </code></pre>
+ [1] Rcpp_1.0.6      rprojroot_2.0.2 digest_0.6.27   later_1.0.0    
+ [5] R6_2.5.0        git2r_0.27.1    magrittr_2.0.1  evaluate_0.14  
+ [9] stringi_1.4.6   rlang_0.4.10    fs_1.4.1        promises_1.1.0 
+[13] whisker_0.4     rmarkdown_2.3   tools_3.6.2     stringr_1.4.0  
+[17] glue_1.4.2      httpuv_1.5.2    xfun_0.17       yaml_2.2.1     
+[21] compiler_3.6.2  htmltools_0.4.0 knitr_1.30     </code></pre>
 </div>
 </div>
 
