@@ -2,7 +2,7 @@
 title: "Testing differential expression on simulated bulk rna-seq data under the null (different permutation)"
 author: "Yusha Liu"
 header-includes:
-date: "2021-2-17"
+date: "2021-3-1"
 output: workflowr::wflow_html
 editor_options:
   chunk_output_type: console
@@ -14,137 +14,84 @@ We apply various methods to detect differential exression on bulk rna-seq data s
 There are two different ways to randomly permute the data: 1) the same permutation to all the genes, so the correlation among genes is preserved on the permuted dataset; 2) independent and different permutation to each gene. Here we simulate null data by applying different and independent permutations to each gene; we simulate 10 replicate datasets in total.
 
 
-## Methods
+## Methods: multi-condition comparisons
 We consider the following methods to compare gene expression levels under each infected condition to the control on the simulated null data. For methods related to mash, we always assume $\alpha = 1$, i.e., the EZ model. 
 
-\noindent 1. limma + mash with common baseline.
+\noindent 1. limma + mash with common baseline, with or without voom procedure.
 
 \noindent 2. sva + limma + mash with common baseline.
 
-\noindent 3. mash + sample-specific random effects.
+\noindent 3. mash + sample-specific random effects without accounting for unwanted variation.
 
-\noindent 4. mash + sample-specific random effects + ruv, with variance inflation factor constrained to be at least 1. 
+\noindent 4. mash + sample-specific random effects + ruv, with variance inflation factor constrained to be at least 1. Here we include both data-driven and canonical prior covariances. To identify the subset of "strong" genes that are used to estimate data-driven covariances, we first subtract the estimated bias caused by unwanted variation from $\hat{b}$ to get $\hat{\tilde{b}}$, and then calculate Z-scores using $\hat{\tilde{b}}$ and $\hat{s}$. The genes with $\max_{r} |Z_{jr}| > 3.5$ are identified as "strong" genes.
 
-\noindent 5. poisson mash + sample-specific random effects + ruv.
+\noindent 5. poisson mash + sample-specific random effects + ruv. We consider including (i) canonical prior covariances only, and (ii) both data-driven and canonical prior covariances.
 
 
-## Result summary
+## Methods: pairwise comparisons
+We apply mouthwash to do pairwise comparisons of gene expressions between each infected condition and the control on the simulated null data.
+
+
+## Results: limma + mash with common baseline
 ```{r warning=FALSE, message=FALSE}
-library(mashr)
-
-### limma + mash with common baseline
-num_effects_1 <- rep(NA, 10)
-
-for(i in 1:10){
-  mash.fit <- readRDS(paste0("output/null_v2_output/mash_fit_rep_", i, ".Rds"))
-  idx.mash <- get_significant_results(mash.fit)
-  num_effects_1[i] <- length(idx.mash)
-}
+limma_mash_num_effects <- readRDS("output/sim_null_v2_limma_mash_results.Rds")
 
 ### number of false positives
-num_effects_1
+limma_mash_num_effects
 
 ### false positive rates
-round(num_effects_1/nrow(mash.fit$result$lfsr), 3)
+round(limma_mash_num_effects/12728, 3)
 
 ```
 
 
+## Results: mash + sample-specific random effects, with or without ruv
 ```{r warning=FALSE, message=FALSE}
-### sva + limma + mash with common baseline 
-num_effects_2 <- rep(NA, 10)
-
-for(i in 1:10){
-  mash.fit <- readRDS(paste0("output/null_v2_output/sva_mash_fit_rep_", i, ".Rds"))
-  idx.mash <- get_significant_results(mash.fit)
-  num_effects_2[i] <- length(idx.mash)
-}
+mash_ruv_num_effects <- readRDS("output/sim_null_v2_mash_ruv_results.Rds")
 
 ### number of false positives
-num_effects_2
+mash_ruv_num_effects
 
 ### false positive rates
-round(num_effects_2/nrow(mash.fit$result$lfsr), 3)
+round(mash_ruv_num_effects/12728, 3)
 
 ```
 
 
+## Results: poisson mash + sample-specific random effects + ruv
 ```{r warning=FALSE, message=FALSE}
-### mash + sample-specific random effects
-num_effects_3 <- rep(NA, 10)
-
-for(i in 1:10){
-  mash.fit <- readRDS(paste0("output/null_v2_output/mash_no_ruv_posterior_rep_", i, ".Rds"))
-  num_effects_3[i] <- sum(apply(mash.fit$lfsr, 1, min) < 0.05)
-}
+pois_mash_num_effects <- readRDS("output/sim_null_v2_pois_mash_ruv_results.Rds")
 
 ### number of false positives
-num_effects_3
+pois_mash_num_effects
 
 ### false positive rates
-round(num_effects_3/nrow(mash.fit$lfsr), 3)
+round(pois_mash_num_effects/12728, 3)
 
 ```
 
 
+## Results: pairwise comparisons with control using mouthwash (K=3, sprop=1)
 ```{r warning=FALSE, message=FALSE}
-### mash + sample-specific random effects + ruv
-num_effects_4 <- rep(NA, 10)
+m.out <- readRDS("output/sim_null_v2_mouthwash_K_3_results.Rds")
 
-for(i in 1:10){
-  mash.fit <- readRDS(paste0("output/null_v2_output/mash_ruv_posterior_rep_", i, ".Rds"))
-  num_effects_4[i] <- sum(apply(mash.fit$lfsr, 1, min) < 0.05)
-}
-
-### number of false positives
-num_effects_4
-
-### false positive rates
-round(num_effects_4/nrow(mash.fit$lfsr), 3)
-
-```
-
-
-
-```{r warning=FALSE, message=FALSE}
-### poisson mash + sample-specific random effects + ruv
-num_effects_5 <- rep(NA, 10)
-
-for(i in 1:10){
-  pois.fit <- readRDS(paste0("output/null_v2_output/pois_mash_ruv_posterior_rep_", i, ".Rds"))
-  num_effects_5[i] <- sum(apply(pois.fit$lfsr, 1, min) < 0.05)
-}
-
-### number of false positives
-num_effects_5
-
-### false positive rates
-round(num_effects_5/nrow(pois.fit$lfsr), 3)
-
-```
-
-
-## Look at pairwise comparisons with control using MOUTHWASH (sprop=1)
-```{r warning=FALSE, message=FALSE}
-m.out <- readRDS("output/mouthwash_sim_null_v2_summary.Rds")
-
-## the estimate of the proportion of null genes
+### the estimate of the proportion of null genes
 round(m.out$pi0, 3)
 
-## the number of DE genes by comparing each infected condition to the control (lfsr < 0.05)
-m.out$num_effects_1
+### the number of significant genes by comparing each infected condition to the control (lfsr < 0.05)
+m.out$num_effects
 
 ```
 
 
-## Look at pairwise comparisons with control using MOUTHWASH, with calibrated shat (sprop=1)
+## Results: pairwise comparisons with control using mouthwash, with calibrated shat (K=3, sprop=1)
 ```{r warning=FALSE, message=FALSE}
-m.out <- readRDS("output/mouthwash_t_lik_sim_null_v2_summary.Rds")
+m.out <- readRDS("output/sim_null_v2_mouthwash_K_3_t_lik_results.Rds")
 
-## the estimate of the proportion of null genes
+### the estimate of the proportion of null genes
 round(m.out$pi0, 3)
 
-## the number of DE genes by comparing each infected condition to the control (lfsr < 0.05)
-m.out$num_effects_1
+### the number of significant genes by comparing each infected condition to the control (lfsr < 0.05)
+m.out$num_effects
 
 ```
