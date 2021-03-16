@@ -15,3 +15,4 @@ Welcome to my research website.
 Click on this [link](sim_null.html) to see application of various methods to detect DE genes under multiple conditions (same permutation to all genes). <br/>
 Click on this [link](sim_null_pairwise.html) to see application of various methods to detect DE genes between each infected condition and the control (same permutation to all genes). <br/>
 Click on this [link](sim_null_v2.html) to see application of various methods to detect DE genes (diff permutation to each gene). <br/>
+Click on this [link](sim_null_updated.html) to see some updated simulation results under the null (same permutation to all genes). <br/>

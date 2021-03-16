@@ -1,0 +1,55 @@
+---
+title: "Testing differential expression on simulated bulk data under the null (same permutation)"
+author: "Yusha Liu"
+header-includes:
+date: "2021-3-16"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+
+
+## Tbdata with 7 conditions and 6 samples per condition
+```{r warning=FALSE, message=FALSE}
+### load in results
+num_effects <- readRDS("output/sim_null_v4_summary.Rds")
+
+### number of false positives
+num_effects
+
+### false positive rates
+round(num_effects/12728, 3)
+
+```
+
+
+
+## TCGA data with 8 conditions (scenario 1)
+```{r warning=FALSE, message=FALSE}
+### load in results
+res <- readRDS("output/TCGA_sim_null_summary.Rds")
+
+### sample size per condition
+res$counts
+
+### number of false positives
+res$num_effects
+
+```
+
+
+## TCGA data with 8 conditions (scenario 2)
+```{r warning=FALSE, message=FALSE}
+### load in results
+res <- readRDS("output/TCGA_sim_null_v2_summary.Rds")
+
+### sample size per condition
+res$counts
+
+### number of false positives
+res$num_effects
+
+```
+
+
